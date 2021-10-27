@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import { Header } from './Components/Header/index'
+import { TaskModal } from './Components/TaskModal/index'
+import { TaskBoard } from "./Components/TaskBoard";
 
-function App() {
+import { GlobalStyles } from "./styles/global";
+import { ThemeProvider } from "styled-components";
+import { Dark, Light } from './styles/themes/themes'
+
+export function App() {
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [ isDarkTheme, setIsDarkTheme ] = useState(false)
+
+  const handleSwitcherTheme = () => setIsDarkTheme(prevState => !prevState)
+
+  function handleOpenTaskModal() {
+    setIsTaskModalOpen(true);
+  }
+
+  function handleCloseTaskModal() {
+    setIsTaskModalOpen(false);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={isDarkTheme ? Dark : Light}>
+      <GlobalStyles/>
+      <Header isDarkTheme={isDarkTheme}  switcher={handleSwitcherTheme}/>
+      <TaskBoard modalOpener={handleOpenTaskModal}/>
+      <TaskModal 
+        isOpen={isTaskModalOpen}
+        onRequestClose={handleCloseTaskModal}
+        />
+    </ThemeProvider>
+     
   );
 }
-
-export default App;
