@@ -1,10 +1,8 @@
 import { Container } from "./styles";
-
 import lightImg from '../../assets/light.svg';
 import darkImg from '../../assets/dark.svg'
 import logoImg from '../../assets/logo.svg';
 import searchImg from '../../assets/search.svg'
-
 interface HeaderProps {
     isDarkTheme: boolean;
     switcher: () => void;

@@ -5,6 +5,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     max-width: 400px;
+    max-height: 300px;
     width: 100%;
     padding: 1rem 1.2rem;
     border-radius: .5rem;
@@ -34,12 +35,35 @@ export const Container = styled.div`
         margin-left: 0;
     }
 
-    div div { /* Checkbox */
-        min-width: 1.2rem;
-        min-height: 1.2rem;
-        border: 2px solid var(--light-box-bg);
-        border-radius: .25rem;
-        margin-right: 1rem;
-        cursor: pointer;
-    }
+    .row {
+        position: relative;
+        &.checked {
+            opacity: .6;
+            &::after {
+                content: ' ';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                height: 2px;
+                width: 100%;
+                background: var(--dark-purple);
+                animation: strike .2s linear 1 forwards;
+            }
+
+            span {
+                margin-left: 10px;
+            }
+        }
+    
+        @keyframes strike{
+            from  { 
+                width : 0;   
+            }
+            to { 
+                width: 100%;
+            }
+        }
+    }              
+
+
 `

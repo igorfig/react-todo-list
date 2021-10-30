@@ -1,21 +1,17 @@
 import { Container } from "./styles";
 import { Tasks } from "../Tasks/index";
-import trashImg from '../../assets/trash.svg'
-
+import { TasksContext } from "../../providers/TaskContext";
+import { useContext } from "react";
 interface TaskListProps {
     modalOpener: () => void;
 }
 
 export function TaskList({ modalOpener }: TaskListProps) {
+    const { tasks } = useContext(TasksContext)
+
     return (
         <Container>
-            <Tasks onModalOpener={modalOpener} />
-            <Tasks onModalOpener={modalOpener} />
-            <Tasks onModalOpener={modalOpener} />
-            <Tasks onModalOpener={modalOpener} />
-            <Tasks onModalOpener={modalOpener} />
-            <Tasks onModalOpener={modalOpener} />
-            <Tasks onModalOpener={modalOpener} />
+            {tasks.map((task, id) => <Tasks key={id} tasks={task} id={id} onModalOpener={modalOpener}/>)}
         </Container>
     )
 }
