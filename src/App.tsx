@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Provider } from './providers/TaskContext'
 import { Header } from './Components/Header/index'
 import { TaskModal } from './Components/TaskModal/index'
 import { TaskBoard } from "./Components/TaskBoard";
@@ -24,12 +25,14 @@ export function App() {
   return (
     <ThemeProvider theme={isDarkTheme ? Dark : Light}>
       <GlobalStyles/>
-      <Header isDarkTheme={isDarkTheme}  switcher={handleSwitcherTheme}/>
-      <TaskBoard modalOpener={handleOpenTaskModal}/>
-      <TaskModal 
-        isOpen={isTaskModalOpen}
-        onRequestClose={handleCloseTaskModal}
-        />
+      <Provider>
+        <Header isDarkTheme={isDarkTheme}  switcher={handleSwitcherTheme}/>
+        <TaskBoard modalOpener={handleOpenTaskModal}/>
+        <TaskModal 
+          isOpen={isTaskModalOpen}
+          onRequestClose={handleCloseTaskModal}
+          />
+      </Provider>
     </ThemeProvider>
      
   );
