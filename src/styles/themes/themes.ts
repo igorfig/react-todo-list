@@ -1,7 +1,7 @@
 import { darken, lighten, transparentize } from "polished"
 
 export const Dark = {
-    background: '#343333',
+    background: '#262626',
     modal_bg: darken(0.6, '#C4C4C4'),
     text: '#FFF',
     input_bg: darken(.5, '#C4C4C4'),
