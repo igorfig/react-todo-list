@@ -1,27 +1,25 @@
-import { darken } from 'polished'
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 interface GlobalStylesProps {
-    theme: {
-        background: string;
-        modal_bg: string;
-        text: string;
-        input_bg: string;
-        input_text: string;
-    }
+  theme: {
+    background: string;
+    modal_bg: string;
+    text: string;
+    input_bg: string;
+    input_text: string;
+  };
 }
 
-export const GlobalStyles =  createGlobalStyle<GlobalStylesProps>`
+export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
     :root {
-        --green: #05773A;
-        --light-green: #9DFFCE;
-
+        --green:  #fff;
+        --light-green: #4C4766;
         /* Dark theme */
         --background: #343333;
         --light-box-bg: #C4C4C4;
         /* Light Theme */
         --background-light: #F6F7FB;
-        --text: #4C4766;
+        --dark-purple: #4C4766;
     }
 
     *  {
@@ -41,7 +39,7 @@ export const GlobalStyles =  createGlobalStyle<GlobalStylesProps>`
     }
 
     body {
-        background: ${props => props.theme.background};
+        background: ${(props) => props.theme.background};
         -webkit-font-smoothing: antialiased;
     }
 
@@ -100,5 +98,41 @@ export const GlobalStyles =  createGlobalStyle<GlobalStylesProps>`
         opacity: 0;
     }
 
+    .checkbox {
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        transition: filter 0.2s;
+        &:hover {
+            filter: brightness(0.8);
+        }
+        div {
+            margin-right: 10px;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #c4c4c4;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.15s, border-color 0.15s;
 
- `
+            &.checked {
+                background: var(--dark-purple);
+                border-color: var(--dark-purple);
+                &:after {
+                    transform: scale(1);
+                }
+        }
+
+            &:after {
+                content: "✔";
+                color: #fff;
+                transform: scale(0);
+                transition: transform 0.15s;
+            }
+        }
+  }
+
+ `;
