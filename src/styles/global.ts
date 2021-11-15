@@ -1,3 +1,4 @@
+import { darken, lighten, transparentize } from "polished";
 import { createGlobalStyle } from "styled-components";
 
 interface GlobalStylesProps {
@@ -7,13 +8,18 @@ interface GlobalStylesProps {
     text: string;
     input_bg: string;
     input_text: string;
+    main_action_button: string;
+    box_bg: string;
+    button_text: string;
   };
 }
 
 export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
     :root {
         --green:  #fff;
-        --light-green: #4C4766;
+        --dark-purple: #4C4766;
+        --modal-background: ${lighten(0.1, "#C4C4C4")};
+        --input-background: ${transparentize(0.7, "#C4C4C4")};
         /* Dark theme */
         --background: #343333;
         --light-box-bg: #C4C4C4;
@@ -38,8 +44,11 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         }
     }
 
+    * html ul li { float: left; }
+    * html ul li a { height: 1%; }
+
     body {
-        background: ${(props) => props.theme.background};
+        background: ${darken(0.05, "#f6f7fb")};
         -webkit-font-smoothing: antialiased;
     }
 
@@ -56,9 +65,85 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         cursor: pointer;
     }
 
-    [disabled] {
-        opacity: 0.6;
-        cursor: not-allowed;    
+    .delete-modal-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #e1e4ee;
+        width: 448px;
+        @media(max-width: 500px) {
+            width: 350px;
+        }
+        transform: scale(0);
+        border-radius: 1rem;
+        padding: 1rem;
+        color: var(--dark-purple);
+        transition: transform .25s ease-in;
+
+        .trash {
+            margin: 1rem 0;
+            img {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            max-width: 320px;
+            margin: .8rem 0 1.4rem 0;
+            h2 {
+                font-size: 32px;
+                margin-bottom: 15px
+            }
+            span + span {
+                font-size: 1rem;
+                margin-top: .4rem;
+            }
+        }
+
+        div {
+            display: flex;
+            align-items: center;
+            margin: 1rem;
+            button {
+                height: 50px;
+                border-radius: 5px;
+                font-size: 1rem;
+                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+                transition: filter .2s ease;
+                &:hover {
+                    filter: brightness(.8);
+                }
+            }
+
+            button.main_action {
+                width: 150px;
+                margin-left: 1rem;
+                background: #EB3B35;
+                color: #fff;
+                border: none;
+                outline: transparent;
+            }
+
+            button {
+                color: var(--dark-purple);
+                padding: .3rem;
+                width: 150px;
+                background:  #e1e4ee;
+                color: var(--dark-purple);
+                
+                border: none;
+                outline: transparent;
+            }
+        }
+
+        &.active {
+            transform: scale(1)
+        }
+
     }
 
     .react-modal-overlay {
@@ -69,16 +154,20 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         bottom: 0;
         right: 0;
         left: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .react-modal-content {
         width: 100vw;
         border-radius: 1rem 1rem 0 0;
-        background: ${({ theme }) => theme.modal_bg};
+        background: var(--modal-background);
         max-height: 400px;
         border: none;
         position: absolute;
-        overflow: auto;
+        overflow: scroll;
         bottom: 0;
         padding: 1.4rem;
         color: #C4C4C4;
@@ -87,15 +176,29 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
 
     .ReactModal__Overlay {
         opacity: 0;
-        transition: opacity 100ms ease-in-out;
+        transition: opacity .2s ease-in-out;
+
+        .delete-modal-content {
+            transition: transform .2s ease-in-out;
+            transform: scale(0);
+        }
     }
 
     .ReactModal__Overlay--after-open{
         opacity: 1;
+        transform:scale(1);
+
+        .delete-modal-content {
+            transform: scale(1);
+        }
     }
 
     .ReactModal__Overlay--before-close{
         opacity: 0;
+
+        .delete-modal-content {
+            transform: scale(0);
+        }
     }
 
     .checkbox {
@@ -131,8 +234,41 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
                 color: #fff;
                 transform: scale(0);
                 transition: transform 0.15s;
+                @media(max-width: 500px) {
+                    font-size: .6rem;
+                } 
             }
         }
+    }
+
+    span.checked {
+        text-decoration: line-through;
+        color: var(--dark-purple);
+        opacity: .6;
+    }
+
+  .editor-container {
+      div {
+          margin-left: 10px;
+        display: flex;
+        flex-direction: row;
+        & + div {
+            margin-top: 1rem;
+        }
+      }
+      .title {
+            margin: 0;
+            color:var(--dark-purple);
+        }
+
+      .contentEditable-container {
+          outline: none;
+          span {
+            font-size: 1.2rem;
+            color: var(--dark-purple);
+          }
+      }
+    
   }
 
  `;
