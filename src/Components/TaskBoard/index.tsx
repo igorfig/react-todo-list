@@ -1,28 +1,16 @@
+import { useTask } from "../../hooks/useTask";
 import { TaskList } from "../TaskList";
 import{ Container  } from './styles';
 
-import trashImg from '../../assets/trash.svg'
-
-interface TaskBoardProps {
-    modalOpener: () => void;
-}
-
-export function TaskBoard({ modalOpener }: TaskBoardProps) {
+export function TaskBoard() {
+    const { tasks } = useTask()
+    
     return (
        <Container>
-            <TaskList modalOpener={modalOpener} />
-          {/*   <div className="btn-trash">
-                <button 
-                    type="button"
-                    >
-                    <img src={trashImg} alt="Deletar Tarefa" />
-                    <span>Excluir</span>
-                </button>
-            </div> */}
-
-            <button className="newTask">
+            {tasks.map(task => <TaskList task={task} id={task.id} key={task.id}/>) }
+           <button className="newTask">
                Adicionar tarefas
-            </button> 
+            </button>
        </Container>
     )
 }
