@@ -3,12 +3,28 @@ import Modal from 'react-modal';
 import { useModal } from '../../hooks/useModal';
 
 import trashImg from '../../assets/trash.svg'
+import { useTask } from '../../hooks/useTask';
 
-export function DeleteTaskModal() {
-    const { isDeleteTaskModalOpen, handleToggleDeleteTaskModal } = useModal();
+interface DeleteTaskModalProps {
+    tasks: {
+        id: number;
+        title: string;
+        body: {
+          id: number;
+          task: string;
+          isCompleted: boolean;
+        }[];
+    
+        isAllCompleted: boolean;
+      };
+}
+
+export function DeleteTaskModal({ tasks }: DeleteTaskModalProps) {
+    const { isDeleteTaskModalOpen, handleToggleDeleteTaskModal, currentDeleteTaskId } = useModal();
+    const { handleDeleteTaskBlock } = useTask();
 
     function handleDelete() {
-        // CRUD delete
+        handleDeleteTaskBlock(currentDeleteTaskId)
 
         handleToggleDeleteTaskModal();
     }

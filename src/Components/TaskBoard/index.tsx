@@ -4,7 +4,8 @@ import{ Container  } from './styles';
 
 export function TaskBoard() {
     const { tasks } = useTask()
-    
+    console.log(tasks);
+
     return (
        <Container>
             {tasks.map(task => <TaskList task={task} id={task.id} key={task.id}/>) }

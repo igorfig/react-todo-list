@@ -22,7 +22,7 @@ Modal.setAppElement("#root");
 
 export function TaskModal({ tasks, id  }: TaskModalProps) {
   const { isTaskModalOpen, handleToggleTaskModal } = useModal();
-  const { handleToggleTaskCompletion, handleToggleAllTaskCompletion } = useTask();
+  const { handleToggleAllTaskCompletion } = useTask();
 
   return (
     <Modal
@@ -47,15 +47,11 @@ export function TaskModal({ tasks, id  }: TaskModalProps) {
         </div>
         {tasks.body.map(task => (
            <div key={task.id}>
-           <Checkbox 
-              handleToggleTaskCompletion={() => handleToggleTaskCompletion(id, task.id)}
-              className={task.isCompleted ? 'checked' : ''}
-            />
-          
-            <Task
-              disabled={false}
-              task={task}
-            />
+              <Task
+                isCharLimited={false}
+                disabled={false}
+                task={task}
+              />
           </div>
         ))}
       </div>

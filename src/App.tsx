@@ -4,7 +4,6 @@ import { Header } from "./Components/Header/index";
 import { TaskBoard } from "./Components/TaskBoard";
 
 import { GlobalStyles } from "./styles/global";
-import { DeleteTaskModal } from "./Components/DeleteTaskModal";
 
 export function App() {
   return (
@@ -13,7 +12,6 @@ export function App() {
       <TaskProvider>
         <Header />
         <ModalProvider>
-          <DeleteTaskModal />
           <TaskBoard />
         </ModalProvider>
       </TaskProvider>
