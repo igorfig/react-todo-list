@@ -4,16 +4,15 @@ import { transparentize } from "polished";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 450px;
+  max-width: 420px;
   width: 100%;
-  /* overflow: hidden; */
- /*  min-height: 200px;*/
+  overflow: hidden;
+  min-height: 200px;
   max-height: 300px; 
   padding: 1rem 1.2rem;
   border-radius: 0.5rem;
   background: ${transparentize(0.9, "#C4C4C4")};
   position: relative;
-  word-wrap: wrap;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
   .task-actions {

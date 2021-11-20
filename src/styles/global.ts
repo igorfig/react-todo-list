@@ -78,7 +78,7 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         border-radius: 1rem;
         padding: 1rem;
         color: var(--dark-purple);
-        transition: transform .25s ease-in;
+        transition: transform .1s;
 
         .trash {
             margin: 1rem 0;
@@ -162,16 +162,15 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
 
     .react-modal-content {
         width: 100vw;
-        border-radius: 1rem 1rem 0 0;
-        background: var(--modal-background);
-        max-height: 400px;
         border: none;
         position: absolute;
-        overflow: scroll;
-        bottom: 0;
+        overflow-y: auto;
+        outline: none; 
+        bottom: 0; 
         padding: 1.4rem;
-        color: #C4C4C4;
-        outline: none;
+        max-height: 400px;
+        background: var(--modal-background);
+        border-radius: 2rem 2rem 0 0;
     }
 
     .ReactModal__Overlay {
@@ -262,11 +261,10 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         }
 
       .contentEditable-container {
-          outline: none;
-          span {
-            font-size: 1.2rem;
-            color: var(--dark-purple);
-          }
+        outline: none;
+        font-size: 1.2rem;
+        color: var(--dark-purple); 
+        user-select: none;
       }
     
   }

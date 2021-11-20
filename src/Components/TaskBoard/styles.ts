@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
-    margin: 3rem 0 1rem 2rem;
+    margin: 3rem 2rem 1rem 2rem;
     display: grid;
     justify-items: center;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
