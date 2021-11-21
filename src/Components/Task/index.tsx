@@ -10,11 +10,12 @@ interface TaskProps {
     task: string;
     isCompleted: boolean;
   };
+  taskBlockId: number;
   disabled: boolean;
   isCharLimited: boolean
 }
 
-export function Task({ task, disabled, isCharLimited }: TaskProps) {
+export function Task({ task, taskBlockId, disabled, isCharLimited }: TaskProps) {
   const limitedChar = task.task.length < 60 ? task.task : task.task.substr(0, 60) + "..."
 
   const taskRef = useRef(
@@ -27,7 +28,7 @@ export function Task({ task, disabled, isCharLimited }: TaskProps) {
     <>
         <Checkbox
             handleToggleTaskCompletion={() =>
-            handleToggleTaskCompletion(currentTaskId, task.id)
+              handleToggleTaskCompletion(taskBlockId, task.id)
             }
             className={task.isCompleted ? "checked" : ""}
         />
@@ -39,10 +40,6 @@ export function Task({ task, disabled, isCharLimited }: TaskProps) {
           onChange={(event) => {
             handleChangeTaskName(event.target.value, task.id, currentTaskId);
             taskRef.current = event.target.value;
-            if(event.target.value === '<br>' || event.target.value === '') {
-              // delete task on writing
-              // with several bugs
-            }
           }}
         />
       </span>

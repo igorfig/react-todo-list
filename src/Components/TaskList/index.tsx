@@ -110,8 +110,8 @@ export function TaskList({ task, id }: TasksProps) {
           </div>
           {firstThreeTasks.map((currentTask) => (
             <div key={currentTask.id}>
-              {!isTaskModalOpen && <Task isCharLimited={true} disabled={true} task={currentTask} />}
-              {isTaskModalOpen && <Task isCharLimited={true} disabled={true} task={currentTask} /> }
+              {!isTaskModalOpen && <Task isCharLimited={true} disabled={true} taskBlockId={task.id} task={currentTask} />}
+              {isTaskModalOpen && <Task isCharLimited={true} disabled={true} taskBlockId={task.id} task={currentTask} /> }
             </div>
           ))}
         </Container>

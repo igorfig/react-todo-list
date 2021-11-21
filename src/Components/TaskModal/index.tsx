@@ -48,6 +48,7 @@ export function TaskModal({ tasks, id  }: TaskModalProps) {
         {tasks.body.map(task => (
            <div key={task.id}>
               <Task
+                taskBlockId={tasks.id}
                 isCharLimited={false}
                 disabled={false}
                 task={task}
