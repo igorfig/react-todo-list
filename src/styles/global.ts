@@ -20,12 +20,6 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         --dark-purple: #4C4766;
         --modal-background: ${lighten(0.1, "#C4C4C4")};
         --input-background: ${transparentize(0.7, "#C4C4C4")};
-        /* Dark theme */
-        --background: #343333;
-        --light-box-bg: #C4C4C4;
-        /* Light Theme */
-        --background-light: #F6F7FB;
-        --dark-purple: #4C4766;
     }
 
     *  {
@@ -122,7 +116,7 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
             button.main_action {
                 width: 150px;
                 margin-left: 1rem;
-                background: #EB3B35;
+                background: #ff0042;
                 color: #fff;
                 border: none;
                 outline: transparent;
@@ -159,7 +153,7 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         align-items: center;
         justify-content: center;
     }
-
+    
     .react-modal-content {
         width: 100vw;
         border: none;
@@ -167,12 +161,12 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         overflow-y: auto;
         outline: none; 
         bottom: 0; 
-        padding: 1.4rem;
+        padding: 2rem;
         max-height: 400px;
         background: var(--modal-background);
         border-radius: 2rem 2rem 0 0;
     }
-
+    
     .ReactModal__Overlay {
         opacity: 0;
         transition: opacity .2s ease-in-out;
@@ -210,8 +204,8 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         }
         div {
             margin-right: 10px;
-            width: 1.25rem;
-            height: 1.25rem;
+            width: 1.3rem;
+            height: 1.3rem;
             border: 2px solid #c4c4c4;
             border-radius: 3px;
             display: flex;
@@ -245,28 +239,5 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         color: var(--dark-purple);
         opacity: .6;
     }
-
-  .editor-container {
-      div {
-          margin-left: 10px;
-        display: flex;
-        flex-direction: row;
-        & + div {
-            margin-top: 1rem;
-        }
-      }
-      .title {
-            margin: 0;
-            color:var(--dark-purple);
-        }
-
-      .contentEditable-container {
-        outline: none;
-        font-size: 1.2rem;
-        color: var(--dark-purple); 
-        user-select: none;
-      }
-    
-  }
 
  `;

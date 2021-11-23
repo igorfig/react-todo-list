@@ -15,39 +15,10 @@ export const Container = styled.header`
     width: 100%;
     align-items: center;
 
-    div {
-      display: flex;
-      align-items: center;
-
-      h1 {
-        margin-left: 0.6rem;
-        font-size: 2rem;
-        font-weight: 500;
-      }
-    }
-
-    button {
-      background: var(--dark-purple);
-      border: 0;
-      outline: none;
-      width: 50px;
-      height: 45px;
-      border-radius: 0.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.2s;
-      &:hover {
-        filter: brightness(0.9);
-      }
-      img {
-        transition: transform 1s;
-      }
-      &:active {
-        img {
-          transform: scale(2);
-        }
-      }
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 300;
+      margin-left: 1rem;
     }
 
     & + div {
