@@ -22,7 +22,7 @@ export const Container = styled.header`
     }
 
     & + div {
-      margin-top: 5rem;
+      margin: 3rem 0;
       display: flex;
       justify-content: center;
     }
@@ -45,7 +45,7 @@ export const Container = styled.header`
       border: none;
       margin-left: 1rem;
       font-size: 1.2rem;
-      color: ${darken(.5, '#C4C4C4')};
+      color: var(--dark-purple);
       width: 100%;
       height: 48px;
     }

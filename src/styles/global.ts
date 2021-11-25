@@ -1,25 +1,13 @@
 import { darken, lighten, transparentize } from "polished";
 import { createGlobalStyle } from "styled-components";
 
-interface GlobalStylesProps {
-  theme: {
-    background: string;
-    modal_bg: string;
-    text: string;
-    input_bg: string;
-    input_text: string;
-    main_action_button: string;
-    box_bg: string;
-    button_text: string;
-  };
-}
-
-export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
+export const GlobalStyles = createGlobalStyle`
     :root {
         --green:  #fff;
         --dark-purple: #4C4766;
         --modal-background: ${lighten(0.1, "#C4C4C4")};
         --input-background: ${transparentize(0.7, "#C4C4C4")};
+        --toastify-color-warning: #4C4766;
     }
 
     *  {
@@ -239,5 +227,8 @@ export const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
         color: var(--dark-purple);
         opacity: .6;
     }
-
+    .Toastify__toast {
+            border-radius: .5rem;
+            margin: 0 .25rem;
+    }
  `;

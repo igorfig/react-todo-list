@@ -7,9 +7,8 @@ export const Container = styled.div`
   max-width: 420px;
   width: 100%;
   overflow: hidden;
-  min-height: 200px;
   max-height: 300px; 
-  padding: 1rem 1.2rem;
+  padding: 1.8rem;
   border-radius: 0.5rem;
   background: ${transparentize(0.9, "#C4C4C4")};
   position: relative;
@@ -82,17 +81,5 @@ export const Container = styled.div`
     &:hover {
       transform: translateY(-5%);
     }
-  }
-
-  div {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    margin: 0.4rem 0 0.4rem 0.5rem;
-    color: var(--dark-purple);
-  }
-
-  .title {
-    margin-left: 0;
   }
 `;
