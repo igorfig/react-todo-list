@@ -2,7 +2,6 @@ import { Container } from "./styles";
 import logoImg from "../../assets/logo.svg";
 import searchImg from "../../assets/search.svg";
 
-
 export function Header() {
   return (
     <Container>

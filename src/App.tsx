@@ -4,6 +4,7 @@ import { Header } from "./Components/Header/index";
 import { TaskBoard } from "./Components/TaskBoard";
 
 import { GlobalStyles } from "./styles/global";
+import 'react-toastify/dist/ReactToastify.css';
 
 export function App() {
   return (

@@ -1,17 +1,21 @@
+import { useModal } from "../../hooks/useModal";
 import { useTask } from "../../hooks/useTask";
 import { TaskList } from "../TaskList";
-import{ Container  } from './styles';
+import { TaskModal } from "../TaskModal";
+import { Container } from "./styles";
 
 export function TaskBoard() {
-    const { tasks } = useTask()
-    console.log(tasks);
-
-    return (
-       <Container>
-            {tasks.map(task => <TaskList task={task} id={task.id} key={task.id}/>) }
-           <button className="newTask">
-               Adicionar tarefas
-            </button>
-       </Container>
-    )
+  const { tasks } = useTask();
+  const { isTaskModalOpen, currentTaskId } = useModal();
+  return (
+    <>
+      {isTaskModalOpen && <TaskModal task={tasks[currentTaskId]} />}
+      <Container>
+        {tasks.map((task) => (
+          <TaskList task={task} key={task.id} />
+        ))}
+        <button className="newTask">Adicionar tarefas</button>
+      </Container>
+    </>
+  );
 }

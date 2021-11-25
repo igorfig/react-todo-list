@@ -12,6 +12,10 @@ interface TasksContextData {
     id: number,
     taskBlockId: number
   ) => void;
+  handleChangeTitleName: (
+    newTitleName: string,
+    taskBlockId: number
+  ) => void;
   handleDeleteTaskBlock: (taskBlockId: number) => void;
   handleDeleteTask: (taskBlockId: number, taskId: number) => void;
 }
@@ -55,32 +59,6 @@ const data = [
 
     isAllCompleted: false,
   },
-  {
-    // topic
-    id: 1,
-    title: "Tarefa 2",
-    body: [
-      {
-        id: 0,
-        task: "Está tudo funcionando perfeitamente",
-        isCompleted: false,
-      },
-
-      {
-        id: 1,
-        task: "Testando ",
-        isCompleted: false,
-      },
-      {
-        id: 2,
-        task: "Testando 123 ",
-        isCompleted: false,
-      },
-    ],
-
-    isAllCompleted: false,
-  },
-
 ];
 
 const TasksContext = createContext<TasksContextData>({} as TasksContextData);
@@ -130,6 +108,21 @@ export function TaskProvider({ children }: ProviderProps) {
     setTasks([...currentTasks]);
   }
 
+  function handleChangeTitleName(newTitleName: string, taskBlockId: number) {
+    const tasksUpdated = tasks.map(task => {
+      if(taskBlockId === task.id) {
+        return {
+          ...task,
+          title: newTitleName
+        }
+      }
+
+      return task
+    })
+
+    setTasks(tasksUpdated);
+  }
+
   function handleChangeTaskName(
     newName: string,
     id: number,
@@ -148,7 +141,6 @@ export function TaskProvider({ children }: ProviderProps) {
     });
 
     const tasksUpdated = tasks.map(taskBlock => {
-      console.log(changeTaskName, 'hehe')
       if(taskBlock.id === taskBlockId) {
         return {
           ...taskBlock,
@@ -158,7 +150,6 @@ export function TaskProvider({ children }: ProviderProps) {
 
       return taskBlock
     })
-
     setTasks(tasksUpdated);
   }
 
@@ -175,8 +166,12 @@ export function TaskProvider({ children }: ProviderProps) {
 
   function handleDeleteTask(taskBlockId: number, taskId:number) {
     const tasksNotDeleted = tasks[taskBlockId].body.filter(task => task.id !== taskId);
+   /*  const updatedId = tasksNotDeleted.map((task, id) => ({
+      ...task,
+      id
+    })) */
 
-    const tasksUpdated = tasks.map(task => {
+    const tasksUpdated = tasks.map((task, id) => {
       if(taskBlockId === task.id) {
         return {
           ...task,
@@ -189,9 +184,9 @@ export function TaskProvider({ children }: ProviderProps) {
 
     setTasks(tasksUpdated);
     
-    if(tasksNotDeleted.length === 0) {
+    /* if(tasksNotDeleted.length === 0) {
       handleDeleteTaskBlock(taskBlockId)
-    }
+    } */
   }
 
   return (
@@ -201,6 +196,7 @@ export function TaskProvider({ children }: ProviderProps) {
         handleToggleTaskCompletion,
         handleToggleAllTaskCompletion,
         handleChangeTaskName,
+        handleChangeTitleName,
         handleDeleteTaskBlock,
         handleDeleteTask
       }}

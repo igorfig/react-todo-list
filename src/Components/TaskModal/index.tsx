@@ -1,10 +1,9 @@
 import Modal from "react-modal";
 import { useModal } from "../../hooks/useModal";
-import { useTask } from "../../hooks/useTask";
-import { Task } from "../Task";
-import { Checkbox } from "../UI/Checkbox";
+import { Task } from "../TaskEditable";
+import { TaskTitle } from "../TaskTitleEditable";
 interface TaskModalProps {
-  tasks: {
+  task: {
     id: number;
     title: string;
     body: {
@@ -15,14 +14,12 @@ interface TaskModalProps {
 
     isAllCompleted: boolean;
   };
-  id: number;
 }
 
 Modal.setAppElement("#root");
 
-export function TaskModal({ tasks, id  }: TaskModalProps) {
-  const { isTaskModalOpen, handleToggleTaskModal } = useModal();
-  const { handleToggleAllTaskCompletion } = useTask();
+export function TaskModal({ task }: TaskModalProps) {
+  const { isTaskModalOpen, handleToggleTaskModal, currentTaskId } = useModal();
 
   return (
     <Modal
@@ -31,31 +28,17 @@ export function TaskModal({ tasks, id  }: TaskModalProps) {
       isOpen={isTaskModalOpen}
       onRequestClose={handleToggleTaskModal}
     >
-      <div className="editor-container">
-        <div className="title">
-          <Checkbox 
-            handleToggleTaskCompletion={() => handleToggleAllTaskCompletion(id)}
-            className={tasks.isAllCompleted ? 'checked' : ''}
+      <TaskTitle task={task} disabled={false} />
+      {task.body.map((task) => (
+        <div key={task.id}>
+          <Task
+            taskBlockId={currentTaskId}
+            isCharLimited={false}
+            disabled={false}
+            task={task}
           />
-          <span
-            className={`row title-row ${
-              tasks.isAllCompleted ? "checked" : ""
-            }`}
-          >
-            <h2>{tasks.title}</h2>
-          </span>
         </div>
-        {tasks.body.map(task => (
-           <div key={task.id}>
-              <Task
-                taskBlockId={tasks.id}
-                isCharLimited={false}
-                disabled={false}
-                task={task}
-              />
-          </div>
-        ))}
-      </div>
+      ))}
     </Modal>
   );
 }
