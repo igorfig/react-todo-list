@@ -11,6 +11,7 @@ export const Container = styled.div`
         outline: none;
         font-size: 1rem;
         color: var(--dark-purple);
+        width: 100%;
         &.checked {
             text-decoration: line-through;
             text-decoration-color: var(--dark-purple);

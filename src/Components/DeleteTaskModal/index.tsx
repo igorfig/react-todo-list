@@ -6,13 +6,13 @@ import trashImg from '../../assets/trash.svg'
 import { useTask } from '../../hooks/useTask';
 
 export function DeleteTaskModal() {
-    const { isDeleteTaskModalOpen, handleToggleDeleteTaskModal, currentDeleteTaskId } = useModal();
+    const { isDeleteTaskModalOpen, toggleDeleteTaskModal, currentDeleteTaskId } = useModal();
     const { deleteTaskBlock } = useTask();
 
     function handleDelete() {
         deleteTaskBlock(currentDeleteTaskId)
 
-        handleToggleDeleteTaskModal();
+        toggleDeleteTaskModal();
     }
 
     return (
@@ -20,7 +20,7 @@ export function DeleteTaskModal() {
             overlayClassName="react-modal-overlay"
             className={`delete-modal-content ${isDeleteTaskModalOpen ? 'active' : ''}` }
             isOpen={isDeleteTaskModalOpen}
-            onRequestClose={handleToggleDeleteTaskModal}
+            onRequestClose={toggleDeleteTaskModal}
         >   
             <div className="trash">
                 <img src={trashImg} alt="Lixeira" />
@@ -34,7 +34,7 @@ export function DeleteTaskModal() {
 
             <div>
                 <button
-                    onClick={handleToggleDeleteTaskModal}
+                    onClick={toggleDeleteTaskModal}
                 >CANCELAR</button>
                 <button 
                     className="main_action"

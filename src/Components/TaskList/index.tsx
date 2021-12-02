@@ -30,10 +30,10 @@ export function TaskList({ task }: TasksProps) {
   const {
     isTaskModalOpen,
     isDeleteTaskModalOpen,
-    handleSetCurrentTaskId,
-    handleToggleTaskModal,
-    handleToggleDeleteTaskModal,
-    handleSetCurrentDeleteTaskId,
+    updateCurrentTaskId,
+    updateCurrentDeleteTaskId,
+    toggleTaskModal,
+    toggleDeleteTaskModal,
   } = useModal();
   const firstThreeTasks = task.body.slice(0, 3);
   return (
@@ -53,8 +53,8 @@ export function TaskList({ task }: TasksProps) {
               <a
                 href="#"
                 onClick={() => {
-                  handleSetCurrentTaskId(task.id);
-                  handleToggleTaskModal();
+                  updateCurrentTaskId(task.id);
+                  toggleTaskModal();
                   setIsTaskActionsActive((prevState) => !prevState);
                 }}
               >
@@ -66,8 +66,8 @@ export function TaskList({ task }: TasksProps) {
               <a
                 href="#"
                 onClick={() => {
-                  handleSetCurrentDeleteTaskId(task.id);
-                  handleToggleDeleteTaskModal();
+                  updateCurrentDeleteTaskId(task.id);
+                  toggleDeleteTaskModal();
                   setIsTaskActionsActive((prevState) => !prevState);
                 }}
               >
@@ -90,10 +90,10 @@ export function TaskList({ task }: TasksProps) {
             disabled={true}
           />
         }
-        {firstThreeTasks.map((currentTask) => (
-          <div key={currentTask.id}>
-            {!isTaskModalOpen && <Task isCharLimited={true} disabled={true} taskBlockId={task.id} task={currentTask} />}
-            {isTaskModalOpen && <Task isCharLimited={true} disabled={true} taskBlockId={task.id} task={currentTask} /> }
+        {firstThreeTasks.map((_, id) => (
+          <div key={id}>
+            {!isTaskModalOpen && <Task isCharLimited={true} disabled={true} taskBlockId={task.id} task={task.body[id]} />}
+            {isTaskModalOpen && <Task isCharLimited={true} disabled={true} taskBlockId={task.id} task={task.body[id]} /> }
           </div>
         ))}
       </Container>

@@ -1,6 +1,5 @@
-import { useRef } from "react";
+import { useState } from "react";
 import ContentEditable from "react-contenteditable";
-import { useModal } from "../../hooks/useModal";
 import { useTask } from "../../hooks/useTask";
 import { Checkbox } from "../UI/Checkbox";
 import { Container } from "./styles";
@@ -22,38 +21,42 @@ export function Task({
   disabled,
   isCharLimited,
 }: TaskProps) {
-  
-  const limitedChar =
-  task.task.length < 60 ? task.task : task.task.substr(0, 60) + "...";
-  
-  const taskRef = useRef(`${isCharLimited ? limitedChar : task.task}`);
-  const { currentTaskId } = useModal();
-  const { changeTaskName, toggleTaskCompletion } =
-  useTask();
+  const { changeTaskName, toggleTaskCompletion, deleteTask }  = useTask();
+  const [text, setText] = useState(() => {
+    if (isCharLimited) {
+      if (task.task.length < 60) {
+        return task.task;
+      } else {
+        return task.task.substr(0, 60) + "...";
+      }
+    } else {
+      return task.task;
+    }
+  });
+
+  function handleChange(event: any) {
+    setText(event.target.value);
+    changeTaskName(event.target.value, task.id, taskBlockId);
+    if (event.target.value === "<br>" ||event.target.value  === "<div><br></div>" ||event.target.value.length === 0) {
+      deleteTask(taskBlockId, task.id);
+    }
+  }
 
   return (
     <Container>
-        <Checkbox
-          handleToggleTaskCompletion={() =>
-            toggleTaskCompletion(taskBlockId, task.id)
-          }
-          className={task.isCompleted ? "checked" : ""}
-        />
-        <ContentEditable
-          className={`contentEditable-container ${task.isCompleted ? 'checked' : ''}`}
-          html={taskRef.current}
-          disabled={task.isCompleted ? true : false || disabled}
-          onChange={(event) => {
-            changeTaskName(event.target.value, task.id, currentTaskId);
-            taskRef.current = event.target.value;
-            /* if (
-              event.target.value.length === 4 ||
-              event.target.value.length === 0
-            ) {
-              handleDeleteTask(currentTaskId, task.id);
-            } */
-          }}
-        />
+      <Checkbox
+        handleToggleTaskCompletion={() => toggleTaskCompletion(taskBlockId, task.id)}
+        className={task.isCompleted ? "checked" : ""}
+      />
+      <ContentEditable
+        className={`contentEditable-container ${
+          task.isCompleted ? "checked" : ""
+        }`}
+        html={text}
+        disabled={task.isCompleted ? true : false || disabled}
+        onChange={handleChange}
+
+      />
     </Container>
   );
 }
