@@ -60,22 +60,7 @@ export function TaskTitle({ task, disabled }: TaskTitleProps) {
         }`}
         html={taskTitleRef.current}
         disabled={task.isAllCompleted ? true : false || disabled}
-<<<<<<< HEAD
-        onChange={(event) => {
-          taskTitleRef.current = event.target.value;
-          if(event.target.value !== '<br>' && event.target.value !== "<div><br></div>" && event.target.value.length > 0) {
-            changeTitleName(event.target.value, task.id)
-          } else {
-            changeTitleName(prevTaskTitleRef.current, task.id) // mobile doesn't work without this
-          }
-          
-          if(event.target.value === '<br>' || event.target.value === '<div><br></div>' || event.target.value.length === 0) {
-            toast.warn('Você precisa adicionar um título à suas tarefas!')
-          }
-        }}
-=======
         onChange={handleChange}
->>>>>>> 7434cd35a41658a60ad74bced492a6dd3eb1fc58
       />
       <ToastContainer
         position="bottom-center"
