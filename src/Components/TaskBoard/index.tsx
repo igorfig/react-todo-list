@@ -7,9 +7,10 @@ import { Container } from "./styles";
 export function TaskBoard() {
   const { tasks } = useTask();
   const { isTaskModalOpen, currentTaskId } = useModal();
+  const currentTask = tasks.filter(task => task.id === currentTaskId);
   return (
     <>
-      {isTaskModalOpen && <TaskModal task={tasks[currentTaskId]} />}
+      {isTaskModalOpen && <TaskModal task={currentTask[0]} />}
       <Container>
         {tasks.map((task) => (
           <TaskList task={task} key={task.id} />

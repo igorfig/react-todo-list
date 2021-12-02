@@ -19,19 +19,18 @@ interface TaskModalProps {
 Modal.setAppElement("#root");
 
 export function TaskModal({ task }: TaskModalProps) {
-  const { isTaskModalOpen, handleToggleTaskModal, currentTaskId } = useModal();
-
-  return (
+  const { isTaskModalOpen, toggleTaskModal, currentTaskId } = useModal();
+   return (
     <Modal
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
       isOpen={isTaskModalOpen}
-      onRequestClose={handleToggleTaskModal}
+      onRequestClose={toggleTaskModal}
     >
       <TaskTitle task={task} disabled={false} />
       {task.body.map((task) => (
         <div key={task.id}>
-          <Task
+         <Task
             taskBlockId={currentTaskId}
             isCharLimited={false}
             disabled={false}

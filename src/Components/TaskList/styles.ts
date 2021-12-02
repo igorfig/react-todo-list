@@ -39,7 +39,7 @@ export const Container = styled.div`
       flex-direction: column;
       z-index: 999;
 
-      transition: transform 0.18s ease;
+      transition: transform 0.18s ease-in;
       &.active {
         transform: scale(1);
       }

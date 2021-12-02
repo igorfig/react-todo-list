@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container } from "./styles";
 
 import dotsImg from "../../assets/dots.svg";
@@ -10,7 +10,6 @@ import { useModal } from "../../hooks/useModal";
 import { Task } from "../TaskEditable";
 import { TaskTitle } from "../TaskTitleEditable";
 import { DeleteTaskModal } from "../DeleteTaskModal";
-import { useTask } from "../../hooks/useTask";
 interface TasksProps {
   task: {
     id: number;
@@ -31,19 +30,15 @@ export function TaskList({ task }: TasksProps) {
   const {
     isTaskModalOpen,
     isDeleteTaskModalOpen,
-    handleSetCurrentTaskId,
-    handleToggleTaskModal,
-    handleToggleDeleteTaskModal,
-    handleSetCurrentDeleteTaskId,
-    currentDeleteTaskId
+    updateCurrentTaskId,
+    updateCurrentDeleteTaskId,
+    toggleTaskModal,
+    toggleDeleteTaskModal,
   } = useModal();
-
-  const { tasks } = useTask();
-  useEffect(() => console.log(currentDeleteTaskId), [currentDeleteTaskId])
-  const firstThreeTasks = task.body.filter((task) => task.id <= 2);
+  const firstThreeTasks = task.body.slice(0, 3);
   return (
     <>
-      {isDeleteTaskModalOpen && <DeleteTaskModal tasks={tasks[currentDeleteTaskId]} />}
+      {isDeleteTaskModalOpen && <DeleteTaskModal />}
       <Container>
         <div className="task-actions">
           <button
@@ -58,8 +53,8 @@ export function TaskList({ task }: TasksProps) {
               <a
                 href="#"
                 onClick={() => {
-                  handleSetCurrentTaskId(task.id);
-                  handleToggleTaskModal();
+                  updateCurrentTaskId(task.id);
+                  toggleTaskModal();
                   setIsTaskActionsActive((prevState) => !prevState);
                 }}
               >
@@ -71,8 +66,8 @@ export function TaskList({ task }: TasksProps) {
               <a
                 href="#"
                 onClick={() => {
-                  handleSetCurrentDeleteTaskId(task.id);
-                  handleToggleDeleteTaskModal();
+                  updateCurrentDeleteTaskId(task.id);
+                  toggleDeleteTaskModal();
                   setIsTaskActionsActive((prevState) => !prevState);
                 }}
               >
@@ -95,10 +90,10 @@ export function TaskList({ task }: TasksProps) {
             disabled={true}
           />
         }
-        {firstThreeTasks.map((currentTask) => (
-          <div key={currentTask.id}>
-            {!isTaskModalOpen && <Task isCharLimited={true} disabled={true} taskBlockId={task.id} task={currentTask} />}
-            {isTaskModalOpen && <Task isCharLimited={true} disabled={true} taskBlockId={task.id} task={currentTask} /> }
+        {firstThreeTasks.map((_, id) => (
+          <div key={id}>
+            {!isTaskModalOpen && <Task isCharLimited={true} disabled={true} taskBlockId={task.id} task={task.body[id]} />}
+            {isTaskModalOpen && <Task isCharLimited={true} disabled={true} taskBlockId={task.id} task={task.body[id]} /> }
           </div>
         ))}
       </Container>

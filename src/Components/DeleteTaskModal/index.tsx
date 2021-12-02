@@ -5,28 +5,13 @@ import { useModal } from '../../hooks/useModal';
 import trashImg from '../../assets/trash.svg'
 import { useTask } from '../../hooks/useTask';
 
-interface DeleteTaskModalProps {
-    tasks: {
-        id: number;
-        title: string;
-        body: {
-          id: number;
-          task: string;
-          isCompleted: boolean;
-        }[];
-    
-        isAllCompleted: boolean;
-      };
-}
-
-export function DeleteTaskModal({ tasks }: DeleteTaskModalProps) {
-    const { isDeleteTaskModalOpen, handleToggleDeleteTaskModal, currentDeleteTaskId } = useModal();
-    const { handleDeleteTaskBlock } = useTask();
+export function DeleteTaskModal() {
+    const { isDeleteTaskModalOpen, toggleDeleteTaskModal, currentDeleteTaskId } = useModal();
+    const { deleteTaskBlock } = useTask();
 
     function handleDelete() {
-        handleDeleteTaskBlock(currentDeleteTaskId)
-
-        handleToggleDeleteTaskModal();
+        deleteTaskBlock(currentDeleteTaskId)
+        toggleDeleteTaskModal();
     }
 
     return (
@@ -34,7 +19,7 @@ export function DeleteTaskModal({ tasks }: DeleteTaskModalProps) {
             overlayClassName="react-modal-overlay"
             className={`delete-modal-content ${isDeleteTaskModalOpen ? 'active' : ''}` }
             isOpen={isDeleteTaskModalOpen}
-            onRequestClose={handleToggleDeleteTaskModal}
+            onRequestClose={toggleDeleteTaskModal}
         >   
             <div className="trash">
                 <img src={trashImg} alt="Lixeira" />
@@ -48,7 +33,7 @@ export function DeleteTaskModal({ tasks }: DeleteTaskModalProps) {
 
             <div>
                 <button
-                    onClick={handleToggleDeleteTaskModal}
+                    onClick={toggleDeleteTaskModal}
                 >CANCELAR</button>
                 <button 
                     className="main_action"

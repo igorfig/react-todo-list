@@ -6,11 +6,11 @@ interface ModalProviderProps {
 
 interface ModalContextData {
     isTaskModalOpen: boolean;
-    handleToggleTaskModal: () => void;
+    toggleTaskModal: () => void;
     isDeleteTaskModalOpen: boolean;
-    handleToggleDeleteTaskModal: () => void;
-    handleSetCurrentTaskId: (id: number) => void;
-    handleSetCurrentDeleteTaskId: (id: number) => void;
+    toggleDeleteTaskModal: () => void;
+    updateCurrentTaskId: (id: number) => void;
+    updateCurrentDeleteTaskId: (id: number) => void;
     currentTaskId: number;
     currentDeleteTaskId: number;
 }
@@ -23,19 +23,19 @@ export function ModalProvider({ children }: ModalProviderProps)  {
     const [currentTaskId, setCurrentTaskId] = useState(0);
     const [currentDeleteTaskId, setCurrentDeleteTaskId] = useState(0);
 
-    function handleToggleTaskModal() {
+    function toggleTaskModal() {
         setIsTaskModalOpen(prevState => !prevState)
     }
 
-    function handleSetCurrentTaskId(id: number) {
+    function updateCurrentTaskId(id: number) {
         setCurrentTaskId(id)
     }
 
-    function handleSetCurrentDeleteTaskId(id: number) {
+    function updateCurrentDeleteTaskId(id: number) {
         setCurrentDeleteTaskId(id)
     }
 
-    function handleToggleDeleteTaskModal() {
+    function toggleDeleteTaskModal() {
         setIsDeleteTaskModalOpen(prevState => !prevState)
     }
 
@@ -45,12 +45,12 @@ export function ModalProvider({ children }: ModalProviderProps)  {
             {
                 currentTaskId,
                 currentDeleteTaskId,
-                handleSetCurrentDeleteTaskId,
-                handleSetCurrentTaskId,
+                updateCurrentDeleteTaskId,
+                updateCurrentTaskId,
                 isTaskModalOpen, 
-                handleToggleTaskModal, 
+                toggleTaskModal, 
                 isDeleteTaskModalOpen, 
-                handleToggleDeleteTaskModal
+                toggleDeleteTaskModal
             }}>
             {children}
         </ModalContext.Provider>

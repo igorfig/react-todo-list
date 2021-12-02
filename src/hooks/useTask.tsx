@@ -5,19 +5,19 @@ interface ProviderProps {
 
 interface TasksContextData {
   tasks: Tasks[];
-  handleToggleTaskCompletion: (taskGroupId: number, taskId: number) => void;
-  handleToggleAllTaskCompletion: (id: number) => void;
-  handleChangeTaskName: (
+  toggleAllTaskCompletion: (id: number) => void;
+  toggleTaskCompletion: (taskGroupId: number, taskId: number) => void;
+  changeTitleName: (
+    newTitleName: string,
+    taskBlockId: number
+  ) => void;
+  changeTaskName: (
     newName: string,
     id: number,
     taskBlockId: number
   ) => void;
-  handleChangeTitleName: (
-    newTitleName: string,
-    taskBlockId: number
-  ) => void;
-  handleDeleteTaskBlock: (taskBlockId: number) => void;
-  handleDeleteTask: (taskBlockId: number, taskId: number) => void;
+  deleteTaskBlock: (taskBlockId: number) => void;
+  deleteTask: (taskBlockId: number, taskId: number) => void;
 }
 
 interface Tasks {
@@ -32,26 +32,39 @@ interface Tasks {
   isAllCompleted: boolean;
 }
 
+const generateKey = () => Math.floor(Math.random() * 1000 + 1);
+
 const data = [
   {
     // topic
-    id: 0,
+    id: generateKey(),
     title: "Boas vindas às tarefas",
     body: [
       {
-        id: 0,
+        id: generateKey(),
         task: "Para editar uma tarefa de texto, simplesmente toque nela",
         isCompleted: false,
       },
 
       {
-        id: 1,
+        id: generateKey(),
         task: "Crie algumas tarefas apenas digitando",
         isCompleted: false,
       },
 
       {
-        id: 2,
+        id: generateKey(),
+        task: "Aqui você pode adicionar tarefas de texto e marca-las como conclúida",
+        isCompleted: false,
+      },
+      {
+        id: generateKey(),
+        task: "Crie algumas tarefas apenas digitando",
+        isCompleted: false,
+      },
+
+      {
+        id: generateKey(),
         task: "Aqui você pode adicionar tarefas de texto e marca-las como conclúida",
         isCompleted: false,
       },
@@ -74,41 +87,47 @@ export function TaskProvider({ children }: ProviderProps) {
   useEffect(() => localStorage.setItem('@tasks', JSON.stringify(tasks)), [tasks])
   
   // CRUD
-  function handleToggleTaskCompletion(taskGroupId: number, taskId: number) {
-    const currentTask = tasks;
+  function toggleTaskCompletion(taskGroupId: number, taskId: number) {
+    console.log(taskId, 'task')
+    const getCurrentTask = tasks.filter(task => task.id === taskGroupId);
 
-    currentTask[taskGroupId].body[taskId].isCompleted =
-      !currentTask[taskGroupId].body[taskId].isCompleted;
-    // eslint-disable-next-line array-callback-return
-    const tasksCompleted = currentTask[taskGroupId].body.filter(
-      (task) => task.isCompleted
-    );
+    const taskStatusSwitch = getCurrentTask[0].body.map(task => ({
+      ...task,
+      isCompleted: task.id === taskId ? !task.isCompleted : task.isCompleted
+    }))
 
-    if (currentTask[taskGroupId].body.length === tasksCompleted.length) {
-      currentTask[taskGroupId].isAllCompleted = true;
-    } else {
-      currentTask[taskGroupId].isAllCompleted = false;
-    }
+    const tasksCompleted = taskStatusSwitch.filter((task) => task.isCompleted);
+    
+    let isAllTasksCompleted: boolean;
 
-    setTasks([...currentTask]);
+    taskStatusSwitch.length === tasksCompleted.length ? isAllTasksCompleted = true : isAllTasksCompleted = false
+
+    const tasksUpdated = tasks.map(task => ({
+      ...task,
+      isAllCompleted: isAllTasksCompleted,
+      body: taskStatusSwitch
+    }))
+    
+    setTasks([...tasksUpdated]);
   }
 
-  function handleToggleAllTaskCompletion(id: number) {
-    const currentTasks = tasks;
-    currentTasks[id].isAllCompleted = !currentTasks[id].isAllCompleted;
+  function toggleAllTaskCompletion(id: number) {
+    const getCurrentTask = tasks.filter(task => task.id === id);
+    const allTasksStatusSwitch = getCurrentTask.map(task => ({
+      ...task,
+      isAllCompleted: !task.isAllCompleted
+    }))
 
-    if (currentTasks[id].isAllCompleted) {
-      currentTasks[id].isAllCompleted = true;
-      currentTasks[id].body.forEach((task) => (task.isCompleted = true));
+    if (allTasksStatusSwitch[0].isAllCompleted) {
+      allTasksStatusSwitch[0].body.forEach(task => task.isCompleted = true);
     } else {
-      currentTasks[id].isAllCompleted = false;
-      currentTasks[id].body.forEach((task) => (task.isCompleted = false));
+      allTasksStatusSwitch[0].body.forEach(task => task.isCompleted = false);
     }
 
-    setTasks([...currentTasks]);
+    setTasks([...allTasksStatusSwitch]);
   }
 
-  function handleChangeTitleName(newTitleName: string, taskBlockId: number) {
+  function changeTitleName(newTitleName: string, taskBlockId: number) {
     const tasksUpdated = tasks.map(task => {
       if(taskBlockId === task.id) {
         return {
@@ -123,13 +142,15 @@ export function TaskProvider({ children }: ProviderProps) {
     setTasks(tasksUpdated);
   }
 
-  function handleChangeTaskName(
+  function changeTaskName(
     newName: string,
     id: number,
     taskBlockId: number
   ) {
 
-    const changeTaskName = tasks[taskBlockId].body.map((task) => {
+    const currentTask = tasks.filter(task => task.id === taskBlockId);
+
+    const newTaskName = currentTask[0].body.map((task) => {
       if (task.id === id) {
         return {
           ...task,
@@ -144,7 +165,7 @@ export function TaskProvider({ children }: ProviderProps) {
       if(taskBlock.id === taskBlockId) {
         return {
           ...taskBlock,
-          body: changeTaskName
+          body: newTaskName
         }
       }
 
@@ -153,29 +174,29 @@ export function TaskProvider({ children }: ProviderProps) {
     setTasks(tasksUpdated);
   }
 
-  function handleDeleteTaskBlock(taskBlockId: number) {
+  function deleteTaskBlock(taskBlockId: number) {
     const tasksNotDeleted = tasks.filter(task => task.id !== taskBlockId);   
 
-    const tasksUpdated = tasksNotDeleted.map((task, id) => ({
+    const tasksUpdated = tasksNotDeleted.map((task) => ({
       ...task,
-      id
+      id: generateKey(),
     }));
 
     setTasks(tasksUpdated)
   }
 
-  function handleDeleteTask(taskBlockId: number, taskId:number) {
-    const tasksNotDeleted = tasks[taskBlockId].body.filter(task => task.id !== taskId);
-   /*  const updatedId = tasksNotDeleted.map((task, id) => ({
+  function deleteTask(taskBlockId: number, taskId:number) {
+    const getCurrentTask = tasks.filter(task => task.id === taskBlockId);
+    const tasksNotDeleted = getCurrentTask[0].body.filter(task => task.id !== taskId);
+    const formatId = tasksNotDeleted.map((task) => ({
       ...task,
-      id
-    })) */
-
-    const tasksUpdated = tasks.map((task, id) => {
+      id: generateKey(),
+    }))
+    const tasksUpdated = tasks.map((task) => {
       if(taskBlockId === task.id) {
         return {
           ...task,
-          body: tasksNotDeleted
+          body: formatId
         }
       }
 
@@ -183,22 +204,18 @@ export function TaskProvider({ children }: ProviderProps) {
     })
 
     setTasks(tasksUpdated);
-    
-    /* if(tasksNotDeleted.length === 0) {
-      handleDeleteTaskBlock(taskBlockId)
-    } */
   }
-
+  
   return (
     <TasksContext.Provider
       value={{
         tasks,
-        handleToggleTaskCompletion,
-        handleToggleAllTaskCompletion,
-        handleChangeTaskName,
-        handleChangeTitleName,
-        handleDeleteTaskBlock,
-        handleDeleteTask
+        toggleAllTaskCompletion,
+        toggleTaskCompletion,
+        changeTaskName,
+        changeTitleName,
+        deleteTaskBlock,
+        deleteTask
       }}
     >
       {children}

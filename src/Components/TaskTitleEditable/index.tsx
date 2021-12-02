@@ -21,44 +21,56 @@ interface TaskTitleProps {
 }
 
 export function TaskTitle({ task, disabled }: TaskTitleProps) {
-  const { handleChangeTitleName, handleToggleAllTaskCompletion } = useTask();
+  const { changeTitleName, toggleAllTaskCompletion } = useTask();
   const taskTitleRef = useRef(task.title);
   const prevTaskTitleRef = useRef(task.title);
 
+  function handleChange(event: any) {
+    taskTitleRef.current = event.target.value;
+    if (
+      event.target.value !== "<br>" &&
+      event.target.value !== "<div><br></div>" &&
+      event.target.value.length > 0
+    ) {
+      changeTitleName(event.target.value, task.id);
+    } else {
+      changeTitleName(prevTaskTitleRef.current, task.id); // mobile doesn't work without this
+    }
+
+    if (
+      event.target.value === "<br>" ||
+      event.target.value === "<div><br></div>" ||
+      event.target.value.length === 0
+    ) {
+      toast.warn("Você precisa adicionar um título à suas tarefas!");
+    }
+  }
+
   return (
-    <Container >  
+    <Container>
       <Checkbox
         handleToggleTaskCompletion={() => {
-          handleToggleAllTaskCompletion(task.id);
+          toggleAllTaskCompletion(task.id);
         }}
         className={task.isAllCompleted ? "checked" : ""}
       />
       <ContentEditable
-        className={`contentEditable-title ${task.isAllCompleted ? 'checked' : ''}`}
+        className={`contentEditable-title ${
+          task.isAllCompleted ? "checked" : ""
+        }`}
         html={taskTitleRef.current}
         disabled={task.isAllCompleted ? true : false || disabled}
-        onChange={(event) => {
-          taskTitleRef.current = event.target.value;
-          if(event.target.value !== '<br>' && event.target.value !== "<div><br></div>" && event.target.value.length > 0) {
-            handleChangeTitleName(event.target.value, task.id)
-          } else {
-            handleChangeTitleName(prevTaskTitleRef.current, task.id) // mobile doesn't work without this
-          }
-          
-          if(event.target.value === '<br>' || event.target.value === '<div><br></div>' || event.target.value.length === 0) {
-            toast.warn('Você precisa adicionar um título à suas tarefas!')
-          }
-        }}
+        onChange={handleChange}
       />
-        <ToastContainer
-          position="bottom-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          pauseOnHover
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
       />
     </Container>
   );
