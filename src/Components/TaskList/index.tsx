@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container } from "./styles";
 
 import dotsImg from "../../assets/dots.svg";
@@ -10,13 +10,12 @@ import { useModal } from "../../hooks/useModal";
 import { Task } from "../TaskEditable";
 import { TaskTitle } from "../TaskTitleEditable";
 import { DeleteTaskModal } from "../DeleteTaskModal";
-import { useTask } from "../../hooks/useTask";
 interface TasksProps {
   task: {
-    id: number;
+    id: string;
     title: string;
     body: {
-      id: number;
+      id: string;
       task: string;
       isCompleted: boolean;
     }[];
@@ -35,15 +34,11 @@ export function TaskList({ task }: TasksProps) {
     handleToggleTaskModal,
     handleToggleDeleteTaskModal,
     handleSetCurrentDeleteTaskId,
-    currentDeleteTaskId
   } = useModal();
-
-  const { tasks } = useTask();
-  useEffect(() => console.log(currentDeleteTaskId), [currentDeleteTaskId])
-  const firstThreeTasks = task.body.filter((task) => task.id <= 2);
+  const firstThreeTasks = task.body.slice(0, 3);
   return (
     <>
-      {isDeleteTaskModalOpen && <DeleteTaskModal tasks={tasks[currentDeleteTaskId]} />}
+      {isDeleteTaskModalOpen && <DeleteTaskModal />}
       <Container>
         <div className="task-actions">
           <button

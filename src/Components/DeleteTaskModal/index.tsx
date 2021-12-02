@@ -5,26 +5,12 @@ import { useModal } from '../../hooks/useModal';
 import trashImg from '../../assets/trash.svg'
 import { useTask } from '../../hooks/useTask';
 
-interface DeleteTaskModalProps {
-    tasks: {
-        id: number;
-        title: string;
-        body: {
-          id: number;
-          task: string;
-          isCompleted: boolean;
-        }[];
-    
-        isAllCompleted: boolean;
-      };
-}
-
-export function DeleteTaskModal({ tasks }: DeleteTaskModalProps) {
+export function DeleteTaskModal() {
     const { isDeleteTaskModalOpen, handleToggleDeleteTaskModal, currentDeleteTaskId } = useModal();
-    const { handleDeleteTaskBlock } = useTask();
+    const { deleteTaskBlock } = useTask();
 
     function handleDelete() {
-        handleDeleteTaskBlock(currentDeleteTaskId)
+        deleteTaskBlock(currentDeleteTaskId)
 
         handleToggleDeleteTaskModal();
     }

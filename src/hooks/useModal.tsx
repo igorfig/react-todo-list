@@ -9,10 +9,10 @@ interface ModalContextData {
     handleToggleTaskModal: () => void;
     isDeleteTaskModalOpen: boolean;
     handleToggleDeleteTaskModal: () => void;
-    handleSetCurrentTaskId: (id: number) => void;
-    handleSetCurrentDeleteTaskId: (id: number) => void;
-    currentTaskId: number;
-    currentDeleteTaskId: number;
+    handleSetCurrentTaskId: (id: string) => void;
+    handleSetCurrentDeleteTaskId: (id: string) => void;
+    currentTaskId: string;
+    currentDeleteTaskId: string;
 }
 
 const ModalContext = createContext<ModalContextData>({} as ModalContextData);
@@ -20,18 +20,18 @@ const ModalContext = createContext<ModalContextData>({} as ModalContextData);
 export function ModalProvider({ children }: ModalProviderProps)  {
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
     const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false);
-    const [currentTaskId, setCurrentTaskId] = useState(0);
-    const [currentDeleteTaskId, setCurrentDeleteTaskId] = useState(0);
+    const [currentTaskId, setCurrentTaskId] = useState('');
+    const [currentDeleteTaskId, setCurrentDeleteTaskId] = useState('');
 
     function handleToggleTaskModal() {
         setIsTaskModalOpen(prevState => !prevState)
     }
 
-    function handleSetCurrentTaskId(id: number) {
+    function handleSetCurrentTaskId(id: string) {
         setCurrentTaskId(id)
     }
 
-    function handleSetCurrentDeleteTaskId(id: number) {
+    function handleSetCurrentDeleteTaskId(id: string) {
         setCurrentDeleteTaskId(id)
     }
 

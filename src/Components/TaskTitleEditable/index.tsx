@@ -7,10 +7,10 @@ import { Container } from "./styles";
 
 interface TaskTitleProps {
   task: {
-    id: number;
+    id: string;
     title: string;
     body: {
-      id: number;
+      id: string;
       task: string;
       isCompleted: boolean;
     }[];
@@ -21,7 +21,7 @@ interface TaskTitleProps {
 }
 
 export function TaskTitle({ task, disabled }: TaskTitleProps) {
-  const { handleChangeTitleName, handleToggleAllTaskCompletion } = useTask();
+  const { changeTitleName, toggleAllTaskCompletion } = useTask();
   const taskTitleRef = useRef(task.title);
   const prevTaskTitleRef = useRef(task.title);
 
@@ -29,7 +29,7 @@ export function TaskTitle({ task, disabled }: TaskTitleProps) {
     <Container >  
       <Checkbox
         handleToggleTaskCompletion={() => {
-          handleToggleAllTaskCompletion(task.id);
+          toggleAllTaskCompletion(task.id);
         }}
         className={task.isAllCompleted ? "checked" : ""}
       />
@@ -40,9 +40,9 @@ export function TaskTitle({ task, disabled }: TaskTitleProps) {
         onChange={(event) => {
           taskTitleRef.current = event.target.value;
           if(event.target.value !== '<br>' && event.target.value !== "<div><br></div>" && event.target.value.length > 0) {
-            handleChangeTitleName(event.target.value, task.id)
+            changeTitleName(event.target.value, task.id)
           } else {
-            handleChangeTitleName(prevTaskTitleRef.current, task.id) // mobile doesn't work without this
+            changeTitleName(prevTaskTitleRef.current, task.id) // mobile doesn't work without this
           }
           
           if(event.target.value === '<br>' || event.target.value === '<div><br></div>' || event.target.value.length === 0) {

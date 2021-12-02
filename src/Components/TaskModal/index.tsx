@@ -4,10 +4,10 @@ import { Task } from "../TaskEditable";
 import { TaskTitle } from "../TaskTitleEditable";
 interface TaskModalProps {
   task: {
-    id: number;
+    id: string;
     title: string;
     body: {
-      id: number;
+      id: string;
       task: string;
       isCompleted: boolean;
     }[];

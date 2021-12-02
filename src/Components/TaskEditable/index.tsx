@@ -7,11 +7,11 @@ import { Container } from "./styles";
 
 interface TaskProps {
   task: {
-    id: number;
+    id: string;
     task: string;
     isCompleted: boolean;
   };
-  taskBlockId: number;
+  taskBlockId: string;
   disabled: boolean;
   isCharLimited: boolean;
 }
@@ -28,14 +28,14 @@ export function Task({
   
   const taskRef = useRef(`${isCharLimited ? limitedChar : task.task}`);
   const { currentTaskId } = useModal();
-  const { handleChangeTaskName, handleToggleTaskCompletion } =
+  const { changeTaskName, toggleTaskCompletion } =
   useTask();
 
   return (
     <Container>
         <Checkbox
           handleToggleTaskCompletion={() =>
-            handleToggleTaskCompletion(taskBlockId, task.id)
+            toggleTaskCompletion(taskBlockId, task.id)
           }
           className={task.isCompleted ? "checked" : ""}
         />
@@ -44,7 +44,7 @@ export function Task({
           html={taskRef.current}
           disabled={task.isCompleted ? true : false || disabled}
           onChange={(event) => {
-            handleChangeTaskName(event.target.value, task.id, currentTaskId);
+            changeTaskName(event.target.value, task.id, currentTaskId);
             taskRef.current = event.target.value;
             /* if (
               event.target.value.length === 4 ||
