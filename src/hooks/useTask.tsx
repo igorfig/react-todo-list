@@ -56,6 +56,47 @@ const data = [
         task: "Aqui você pode adicionar tarefas de texto e marca-las como conclúida",
         isCompleted: false,
       },
+    ],
+
+    isAllCompleted: false,
+  },
+  {
+    // topic
+    id: uuidv4(),
+    title: "Boas vindas às tarefas",
+    body: [
+      {
+        id: uuidv4(),
+        task: "Para editar uma tarefa de texto, simplesmente toque nela",
+        isCompleted: false,
+      },
+
+      {
+        id: uuidv4(),
+        task: "Crie algumas tarefas apenas digitando",
+        isCompleted: false,
+      },
+
+      {
+        id: uuidv4(),
+        task: "Aqui você pode adicionar tarefas de texto e marca-las como conclúida",
+        isCompleted: false,
+      },
+    ],
+
+    isAllCompleted: false,
+  },
+  {
+    // topic
+    id: uuidv4(),
+    title: "Boas vindas às tarefas",
+    body: [
+      {
+        id: uuidv4(),
+        task: "Para editar uma tarefa de texto, simplesmente toque nela",
+        isCompleted: false,
+      },
+
       {
         id: uuidv4(),
         task: "Crie algumas tarefas apenas digitando",
@@ -101,13 +142,19 @@ export function TaskProvider({ children }: ProviderProps) {
 
     taskStatusSwitch.length === tasksCompleted.length ? isAllTasksCompleted = true : isAllTasksCompleted = false
 
-    const tasksUpdated = tasks.map(task => ({
-      ...task,
-      isAllCompleted: isAllTasksCompleted,
-      body: taskStatusSwitch
-    }))
+    const tasksUpdated = tasks.map(task => {
+      if(task.id === taskGroupId) {
+        return {
+          ...task,
+          isAllCompleted: isAllTasksCompleted,
+          body: taskStatusSwitch
+        }
+      }
+
+      return task
+    })
     
-    setTasks([...tasksUpdated]);
+    setTasks(tasksUpdated);
   }
 
   function toggleAllTaskCompletion(id: string) {
@@ -117,13 +164,21 @@ export function TaskProvider({ children }: ProviderProps) {
       isAllCompleted: !task.isAllCompleted
     }))
 
+    const tasksUpdated = tasks.map(task => {
+      if(task.id === id) {
+        return allTasksStatusSwitch[0]       
+      }
+
+      return task
+    })
+
     if (allTasksStatusSwitch[0].isAllCompleted) {
       allTasksStatusSwitch[0].body.forEach(task => task.isCompleted = true);
     } else {
       allTasksStatusSwitch[0].body.forEach(task => task.isCompleted = false);
     }
 
-    setTasks([...allTasksStatusSwitch]);
+    setTasks(tasksUpdated);
   }
 
   function changeTitleName(newTitleName: string, taskBlockId: string) {
