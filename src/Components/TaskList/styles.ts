@@ -9,10 +9,22 @@ export const Container = styled.div`
   overflow: hidden;
   max-height: 300px; 
   padding: 1.8rem;
-  border-radius: 0.5rem;
+  border-radius: 1.2rem;
   background: ${transparentize(0.9, "#C4C4C4")};
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  animation: fade-in .5s ease 1;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(100%)
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
 
   .task-actions {
     .dots {

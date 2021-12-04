@@ -47,7 +47,12 @@ export const Container = styled.header`
       color: var(--dark-purple);
       width: 100%;
       height: 48px;
+      &::placeholder {
+        color: var(--dark-purple);
+        opacity: .7;
+      }
     }
+    
   }
 
   .days-of-week {
