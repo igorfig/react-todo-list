@@ -4,25 +4,13 @@ export const Container = styled.section`
     margin: 1rem 2rem 1rem 2rem;
     display: grid;
     justify-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
-
     .without-tasks-message {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        animation: fade-in .5s ease-in 1;
-
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
+        
         span {
             margin-bottom: 10px;
             font-size: 1.6rem;

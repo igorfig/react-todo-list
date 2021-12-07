@@ -9,7 +9,7 @@ export const Container = styled.div`
     
     .contentEditable-container {
         outline: none;
-        font-size: 1rem;
+        font-size: 1.125rem;
         color: var(--dark-purple);
         width: 100%;
         &.checked {

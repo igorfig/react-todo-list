@@ -4,9 +4,8 @@ import { transparentize } from "polished";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 420px;
+  max-width: 650px;
   width: 100%;
-  overflow: hidden;
   max-height: 300px; 
   padding: 1.8rem;
   border-radius: 1.2rem;
@@ -14,6 +13,7 @@ export const Container = styled.div`
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   animation: fade-in .5s ease 1;
+  overflow: visible;
 
   @keyframes fade-in {
     from {
@@ -50,7 +50,6 @@ export const Container = styled.div`
       display: flex;
       flex-direction: column;
       z-index: 999;
-
       transition: transform 0.18s ease-in;
       &.active {
         transform: scale(1);
