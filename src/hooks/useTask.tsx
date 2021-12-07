@@ -127,30 +127,6 @@ export function TaskProvider({ children }: ProviderProps) {
   useEffect(() => localStorage.setItem('@tasks', JSON.stringify(tasks)), [tasks])
   
   // CRUD
-  function toggleAllTaskCompletion(id: string) {
-    const getCurrentTask = tasks.filter(task => task.id === id);
-    const allTasksStatusSwitch = getCurrentTask.map(task => ({
-      ...task,
-      isAllCompleted: !task.isAllCompleted
-    }))
-
-    const tasksUpdated = tasks.map(task => {
-      if(task.id === id) {
-        return allTasksStatusSwitch[0]       
-      }
-
-      return task
-    })
-
-    if (allTasksStatusSwitch[0].isAllCompleted) {
-      allTasksStatusSwitch[0].body.forEach(task => task.isCompleted = true);
-    } else {
-      allTasksStatusSwitch[0].body.forEach(task => task.isCompleted = false);
-    }
-
-    setTasks(tasksUpdated);
-  }
-
   function toggleTaskCompletion(taskGroupId: string, taskId: string) {
     console.log(taskId, 'task')
     const getCurrentTask = tasks.filter(task => task.id === taskGroupId);
@@ -178,6 +154,30 @@ export function TaskProvider({ children }: ProviderProps) {
       return task
     })
     
+    setTasks(tasksUpdated);
+  }
+
+  function toggleAllTaskCompletion(id: string) {
+    const getCurrentTask = tasks.filter(task => task.id === id);
+    const allTasksStatusSwitch = getCurrentTask.map(task => ({
+      ...task,
+      isAllCompleted: !task.isAllCompleted
+    }))
+
+    const tasksUpdated = tasks.map(task => {
+      if(task.id === id) {
+        return allTasksStatusSwitch[0]       
+      }
+
+      return task
+    })
+
+    if (allTasksStatusSwitch[0].isAllCompleted) {
+      allTasksStatusSwitch[0].body.forEach(task => task.isCompleted = true);
+    } else {
+      allTasksStatusSwitch[0].body.forEach(task => task.isCompleted = false);
+    }
+
     setTasks(tasksUpdated);
   }
 
