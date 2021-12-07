@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import { useTask } from "../../hooks/useTask";
 import { Checkbox } from "../UI/Checkbox";
@@ -34,11 +34,20 @@ export function Task({
     }
   });
 
+  const contentEditableRef = useRef<HTMLDivElement>({} as HTMLDivElement);
+  
+  function handleDeleteTaskOnBackspacePress(event: any) {
+    event.stopPropagation();
+    if(event.key === 'Backspace') {
+      deleteTask(taskBlockId, task.id);
+    }
+  }
+
   function handleChange(event: any) {
     setText(event.target.value);
     changeTaskName(event.target.value, task.id, taskBlockId);
     if (event.target.value === "<br>" ||event.target.value  === "<div><br></div>" ||event.target.value.length === 0) {
-      deleteTask(taskBlockId, task.id);
+      contentEditableRef.current.addEventListener('keydown', handleDeleteTaskOnBackspacePress)
     }
   }
 
@@ -49,13 +58,14 @@ export function Task({
         className={task.isCompleted ? "checked" : ""}
       />
       <ContentEditable
+        innerRef={contentEditableRef}
+        tabIndex={1}
         className={`contentEditable-container ${
           task.isCompleted ? "checked" : ""
         }`}
         html={text}
         disabled={task.isCompleted ? true : false || disabled}
         onChange={handleChange}
-
       />
     </Container>
   );

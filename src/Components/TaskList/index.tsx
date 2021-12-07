@@ -26,7 +26,6 @@ interface TasksProps {
 
 export function TaskList({ task }: TasksProps) {
   const [isTaskActionsActive, setIsTaskActionsActive] = useState(false)
-  
   const {
     isTaskModalOpen,
     isDeleteTaskModalOpen,
