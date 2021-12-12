@@ -5,6 +5,8 @@ interface ProviderProps {
 }
 interface TasksContextData {
   tasks: Tasks[];
+  createNewTaskBlock: () => void;
+  createNewTask: (id: string) => void;
   toggleAllTaskCompletion: (id: string) => void;
   toggleTaskCompletion: (taskGroupId: string, taskId: string) => void;
   changeTitleName: (
@@ -32,7 +34,6 @@ interface Tasks {
   isAllCompleted: boolean;
 }
 
-
 const data = [
   {
     // topic
@@ -41,30 +42,10 @@ const data = [
     body: [
       {
         id: uuidv4(),
-        task: "Para editar uma tarefa de texto, simplesmente toque nela",
+        task: "Aqui há um breve guia de como utilizar esta aplicação!",
         isCompleted: false,
       },
 
-      {
-        id: uuidv4(),
-        task: "Crie algumas tarefas apenas digitando",
-        isCompleted: false,
-      },
-
-      {
-        id: uuidv4(),
-        task: "Aqui você pode adicionar tarefas de texto e marca-las como conclúida",
-        isCompleted: false,
-      },
-    ],
-
-    isAllCompleted: false,
-  },
-  {
-    // topic
-    id: uuidv4(),
-    title: "Boas vindas às tarefas",
-    body: [
       {
         id: uuidv4(),
         task: "Para editar uma tarefa de texto, simplesmente toque nela",
@@ -73,39 +54,14 @@ const data = [
 
       {
         id: uuidv4(),
-        task: "Crie algumas tarefas apenas digitando",
+        task: "Você pode marcar suas tarefas como concluída tocando na caixa de seleção",
         isCompleted: false,
       },
 
-      {
-        id: uuidv4(),
-        task: "Aqui você pode adicionar tarefas de texto e marca-las como conclúida",
-        isCompleted: false,
-      },
-    ],
-
-    isAllCompleted: false,
-  },
-  {
-    // topic
-    id: uuidv4(),
-    title: "Boas vindas às tarefas",
-    body: [
-      {
-        id: uuidv4(),
-        task: "Para editar uma tarefa de texto, simplesmente toque nela",
-        isCompleted: false,
-      },
 
       {
         id: uuidv4(),
-        task: "Crie algumas tarefas apenas digitando",
-        isCompleted: false,
-      },
-
-      {
-        id: uuidv4(),
-        task: "Aqui você pode adicionar tarefas de texto e marca-las como conclúida",
+        task: 'É possível adicionar novas tarefas ao pressionar a tecla/botão de quebra de linha padrão do sistema na última tarefa criada',
         isCompleted: false,
       },
     ],
@@ -127,9 +83,54 @@ export function TaskProvider({ children }: ProviderProps) {
   useEffect(() => localStorage.setItem('@tasks', JSON.stringify(tasks)), [tasks])
   
   // CRUD
+  function createNewTaskBlock() {
+    setTasks([
+      ...tasks,
+      {
+        id: uuidv4(),
+        title: "Comece adicionando um título",
+        body: [
+          {
+            id: uuidv4(),
+            task: "Você adicionar mais tarefas como esta!",
+            isCompleted: false,
+          },
+        ],
+    
+        isAllCompleted: false,
+      }
+    ])
+  }
+
+  function createNewTask(id: string ) {
+    const currentTask = tasks.filter(task => task.id === id);
+    const taskSaved = currentTask.map(task => ({
+        ...task,
+        body: [
+          ...task.body,
+          {
+            id: uuidv4(),
+            task: '',
+            isCompleted: false
+          }
+        ]
+    }))
+
+    const tasksUpdated = tasks.map(task => {
+      if(task.id === id) {
+        return taskSaved[0]
+      }
+
+      return task
+    })
+    
+    setTasks(tasksUpdated)
+
+  }
+
   function toggleAllTaskCompletion(id: string) {
-    const getCurrentTask = tasks.filter(task => task.id === id);
-    const allTasksStatusSwitch = getCurrentTask.map(task => ({
+    const currentTask = tasks.filter(task => task.id === id);
+    const allTasksStatusSwitch = currentTask.map(task => ({
       ...task,
       isAllCompleted: !task.isAllCompleted
     }))
@@ -153,25 +154,25 @@ export function TaskProvider({ children }: ProviderProps) {
 
   function toggleTaskCompletion(taskGroupId: string, taskId: string) {
     console.log(taskId, 'task')
-    const getCurrentTask = tasks.filter(task => task.id === taskGroupId);
+    const currentTask = tasks.filter(task => task.id === taskGroupId);
 
-    const taskStatusSwitch = getCurrentTask[0].body.map(task => ({
+    const taskStatusSwitched = currentTask[0].body.map(task => ({
       ...task,
       isCompleted: task.id === taskId ? !task.isCompleted : task.isCompleted
     }))
 
-    const tasksCompleted = taskStatusSwitch.filter((task) => task.isCompleted);
+    const tasksCompleted = taskStatusSwitched.filter((task) => task.isCompleted);
     
     let isAllTasksCompleted: boolean;
 
-    taskStatusSwitch.length === tasksCompleted.length ? isAllTasksCompleted = true : isAllTasksCompleted = false
+    taskStatusSwitched.length === tasksCompleted.length ? isAllTasksCompleted = true : isAllTasksCompleted = false
 
     const tasksUpdated = tasks.map(task => {
       if(task.id === taskGroupId) {
         return {
           ...task,
           isAllCompleted: isAllTasksCompleted,
-          body: taskStatusSwitch
+          body: taskStatusSwitched
         }
       }
 
@@ -201,9 +202,8 @@ export function TaskProvider({ children }: ProviderProps) {
     id: string,
     taskBlockId: string
   ) {
-
     const currentTask = tasks.filter(task => task.id === taskBlockId);
-
+    console.log(tasks, id,  'currentTask');
     const newTaskName = currentTask[0].body.map((task) => {
       if (task.id === id) {
         return {
@@ -240,8 +240,8 @@ export function TaskProvider({ children }: ProviderProps) {
   }
 
   function deleteTask(taskBlockId: string, taskId: string) {
-    const getCurrentTask = tasks.filter(task => task.id === taskBlockId);
-    const tasksNotDeleted = getCurrentTask[0].body.filter(task => task.id !== taskId);
+    const currentTask = tasks.filter(task => task.id === taskBlockId);
+    const tasksNotDeleted = currentTask[0].body.filter(task => task.id !== taskId);
     const formatId = tasksNotDeleted.map((task) => ({
       ...task,
       id: uuidv4(),
@@ -264,6 +264,8 @@ export function TaskProvider({ children }: ProviderProps) {
     <TasksContext.Provider
       value={{
         tasks,
+        createNewTaskBlock,
+        createNewTask,
         toggleAllTaskCompletion,
         toggleTaskCompletion,
         changeTaskName,

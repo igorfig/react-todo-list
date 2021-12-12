@@ -7,7 +7,10 @@ export function Checkbox({ handleToggleTaskCompletion, className }: CheckboxProp
   return (
     <div 
         className="checkbox" 
-        onClick={handleToggleTaskCompletion}>
+        onClick={(event) => {
+          event.stopPropagation()
+          handleToggleTaskCompletion();
+        }}>
       <div
         className={`checkbox-box ${className}`}
       ></div>

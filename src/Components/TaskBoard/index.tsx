@@ -4,15 +4,22 @@ import { TaskList } from "../TaskList";
 import { TaskModal } from "../TaskModal";
 import { Container } from "./styles";
 
-import mainImg from "../../assets/main_img.svg";
+import mainImg from "../../assets/homeIlustration.svg";
 
 export function TaskBoard() {
-  const { tasks } = useTask();
-  const { isTaskModalOpen, currentTaskId } = useModal();
-  const currentTask = tasks.filter((task) => task.id === currentTaskId);
+  const { tasks, createNewTaskBlock } = useTask();
+  const { isTaskModalOpen, openTaskModal, isTaskEditModalOpen, currentTaskEditId } = useModal();
+  const currentTask = tasks.filter((task) => task.id === currentTaskEditId);
+
+  const handleOpenModal = () => {
+    createNewTaskBlock();
+    openTaskModal();
+  }
+
   return (
     <>
-      {isTaskModalOpen && <TaskModal task={currentTask[0]} />}
+      {isTaskEditModalOpen && <TaskModal task={currentTask[0]} />}
+      {isTaskModalOpen && <TaskModal task={tasks[tasks.length - 1]}/>}
       <Container>
         {tasks.map((task) => tasks.length > 0 && <TaskList task={task} key={task.id} />)}
         {tasks.length === 0 && (
@@ -22,7 +29,7 @@ export function TaskBoard() {
             <img src={mainImg} alt="Ainda não há nenhuma tarefa" />
           </div>
         )}
-        <button className="newTask">Adicionar tarefas</button>
+        <button onClick={handleOpenModal} className="newTask">Adicionar tarefas</button>
       </Container>
     </>
   );

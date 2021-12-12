@@ -6,6 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
   max-width: 650px;
   width: 100%;
+  cursor: pointer;
   max-height: 300px; 
   padding: 1.8rem;
   border-radius: 1.2rem;
@@ -14,7 +15,6 @@ export const Container = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   animation: fade-in .5s ease 1;
   overflow: visible;
-
   @keyframes fade-in {
     from {
       opacity: 0;
@@ -26,71 +26,34 @@ export const Container = styled.div`
     }
   }
 
-  .task-actions {
-    .dots {
-      background: none;
-      outline: none;
-      border: none;
-      top: 10px;
-      position: absolute;
-      right: 0.8rem;
-    }
-
-    ul {
-      transform: scale(0);
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-      position: absolute;
-      top: 2rem;
-      right: 2.5rem;
-      background: #e1e4ee;
-      border-radius: 0.4rem;
-      display: flex;
-      flex-direction: column;
-      z-index: 999;
-      transition: transform 0.18s ease-in;
-      &.active {
-        transform: scale(1);
-      }
-      & li {
-        position: relative;
-        padding: 5px;
-        width: 160px;
-        height: 50px;
-        padding: 0.8rem 0 0 1rem;
-
-        & a {
-          color: var(--dark-purple);
-          text-decoration: none;
-          font-size: 1.1rem;
-          display: flex;
-          opacity: .5;
-          align-items: center;
-
-          transition: opacity  0.2s ease;
-
-          & img {
-              margin-right: .6rem;
-          }
-          &:hover {
-            opacity: 1;
-          }
-        }
-
-        & + li {
-          border-top: 1px solid ${transparentize(0.9, '#4C4766')};
-        }
-      }
-    }
-  }
-
   @media (min-width: 768px) {
     transition: transform 0.2s;
 
     &:hover {
       transform: translateY(-5%);
+    }
+  }
+
+  .delete {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    transition: filter .2s;
+    &:hover {
+        filter: brightness(.7);
+    }
+    button {
+      outline: none;
+      border: none;
+      background: transparent;
+      color: var(--dark-purple);
+      display: flex;
+      align-items: center;
+      img {
+        height: 24px;
+        width: 24px;
+      }
+
     }
   }
 `;

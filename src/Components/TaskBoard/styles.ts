@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
-    margin: 1rem 2rem 1rem 2rem;
+    margin: 1rem 0;
     display: grid;
     justify-items: center;
     gap: 2rem;
@@ -17,6 +17,10 @@ export const Container = styled.section`
             color: var(--dark-purple);
             font-weight: 300;
             opacity: .8;
+        }
+
+        span + span {
+            margin-bottom: 30px;
         }
     }
 
@@ -49,6 +53,4 @@ export const Container = styled.section`
             filter: brightness(.8);
         }
     }
-
-   
 `

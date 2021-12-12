@@ -6,7 +6,7 @@ export const Container = styled.div`
     flex-direction: row;
     color: var(--dark-purple);
     .contentEditable-title {
-        font-size: 24px;
+        font-size: 1.3rem;
         font-weight: 700;
         margin: 0;
         color:var(--dark-purple);

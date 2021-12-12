@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import { toast, ToastContainer } from "react-toastify";
 import { useTask } from "../../hooks/useTask";
@@ -21,12 +21,28 @@ interface TaskTitleProps {
 }
 
 export function TaskTitle({ task, disabled }: TaskTitleProps) {
-  const { changeTitleName, toggleAllTaskCompletion } = useTask();
-  const taskTitleRef = useRef(task.title);
+  const { changeTitleName, toggleAllTaskCompletion, createNewTask } = useTask();
+  const taskTitleRef = useRef<HTMLDivElement>({} as HTMLDivElement);
+  const [title, setTitle] = useState(task.title);
   const prevTaskTitleRef = useRef(task.title);
 
+  function handleCreateNewTask(event: any) {
+    if (event.key === "Enter" ) {
+      event.preventDefault();
+      task.body.length === 0 && createNewTask(task.id);
+    }
+  }
+
+  useEffect(() => {
+    taskTitleRef.current.addEventListener("keydown", handleCreateNewTask);
+
+    const ref = taskTitleRef.current;
+    return () => ref.removeEventListener('keydown', handleCreateNewTask )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [task]);
+
   function handleChange(event: any) {
-    taskTitleRef.current = event.target.value;
+    setTitle(event.target.value);
     if (
       event.target.value !== "<br>" &&
       event.target.value !== "<div><br></div>" &&
@@ -55,10 +71,12 @@ export function TaskTitle({ task, disabled }: TaskTitleProps) {
         className={task.isAllCompleted ? "checked" : ""}
       />
       <ContentEditable
+        tabIndex={1}
+        innerRef={taskTitleRef}
         className={`contentEditable-title ${
           task.isAllCompleted ? "checked" : ""
         }`}
-        html={taskTitleRef.current}
+        html={title}
         disabled={task.isAllCompleted ? true : false || disabled}
         onChange={handleChange}
       />

@@ -1,4 +1,4 @@
-import {  useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import { useTask } from "../../hooks/useTask";
 import { Checkbox } from "../UI/Checkbox";
@@ -21,7 +21,7 @@ export function Task({
   disabled,
   isCharLimited,
 }: TaskProps) {
-  const { changeTaskName, toggleTaskCompletion, deleteTask }  = useTask();
+  const { tasks, createNewTask, changeTaskName, toggleTaskCompletion, deleteTask }  = useTask();
   const [text, setText] = useState(() => {
     if (isCharLimited) {
       if (task.task.length < 60) {
@@ -34,21 +34,54 @@ export function Task({
     }
   });
 
-  const contentEditableRef = useRef<HTMLDivElement>({} as HTMLDivElement);
   
+  const contentEditableRef = useRef<HTMLDivElement>({} as HTMLDivElement);
+  useEffect(() => {
+    contentEditableRef.current.focus()
+  }, [])
+
+  function handleCreateNewTask(event: any) {
+      if(event.key === 'Enter' ) {
+        event.preventDefault();
+        const currentTask = tasks.filter(task => task.id === taskBlockId);
+
+        if(text === currentTask[0].body[currentTask[0].body.length - 1].task && text.length > 0) {
+          createNewTask(taskBlockId);
+        }
+      }
+    }
+  
+  useEffect(() => {
+    contentEditableRef.current.addEventListener('keydown', handleCreateNewTask)
+    
+    const ref = contentEditableRef.current
+    return () => ref.removeEventListener('keydown', handleCreateNewTask)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text, tasks])
+
   function handleDeleteTaskOnBackspacePress(event: any) {
-    event.stopPropagation();
-    if(event.key === 'Backspace') {
-      deleteTask(taskBlockId, task.id);
+    if (text === "<br>" || text  === "<div><br></div>" || text.length  === 0) {
+      if(event.key === 'Backspace') {
+        deleteTask(taskBlockId, task.id);
+        console.log(tasks)
+        console.log(task.id);
+      }
     }
   }
+  useEffect(() => {
+    contentEditableRef.current.addEventListener('keydown', handleDeleteTaskOnBackspacePress)
+    const ref = contentEditableRef.current
+
+    return () => ref.removeEventListener('keydown', handleDeleteTaskOnBackspacePress);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text, task])
+
+  
 
   function handleChange(event: any) {
     setText(event.target.value);
     changeTaskName(event.target.value, task.id, taskBlockId);
-    if (event.target.value === "<br>" ||event.target.value  === "<div><br></div>" ||event.target.value.length === 0) {
-      contentEditableRef.current.addEventListener('keydown', handleDeleteTaskOnBackspacePress)
-    }
   }
 
   return (

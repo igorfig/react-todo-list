@@ -5,13 +5,18 @@ interface ModalProviderProps {
 }
 
 interface ModalContextData {
+    openTaskModal: () => void;
+    requestClose: () => void;
     isTaskModalOpen: boolean;
-    toggleTaskModal: () => void;
+    isTaskEditModalOpen: boolean;
+    openTaskEditModal: () => void;
     isDeleteTaskModalOpen: boolean;
     toggleDeleteTaskModal: () => void;
-    updateCurrentTaskId: (id: string) => void;
+    updateCurrentTaskEditId: (id: string) => void;
     updateCurrentDeleteTaskId: (id: string) => void;
+    updateCurrentTaskId: (id: string) => void;
     currentTaskId: string;
+    currentTaskEditId: string;
     currentDeleteTaskId: string;
 }
 
@@ -19,38 +24,39 @@ const ModalContext = createContext<ModalContextData>({} as ModalContextData);
 
 export function ModalProvider({ children }: ModalProviderProps)  {
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+    const [isTaskEditModalOpen, setIsTaskEditModalOpen] = useState(false);
     const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false);
-    const [currentTaskId, setCurrentTaskId] = useState('');
+    const [currentTaskId, setCurrentTaskId] = useState(''); 
+    const [currentTaskEditId, setCurrentTaskEditId] = useState('');
     const [currentDeleteTaskId, setCurrentDeleteTaskId] = useState('');
 
-    function toggleTaskModal() {
-        setIsTaskModalOpen(prevState => !prevState)
+    const openTaskModal = () => setIsTaskModalOpen(true);
+    const openTaskEditModal = () => setIsTaskEditModalOpen(true);
+    const requestClose = () => {
+        setIsTaskModalOpen(false);
+        setIsTaskEditModalOpen(false);
     }
-
-    function updateCurrentTaskId(id: string) {
-        setCurrentTaskId(id)
-    }
-
-    function updateCurrentDeleteTaskId(id: string) {
-        setCurrentDeleteTaskId(id)
-    }
-
-    function toggleDeleteTaskModal() {
-        setIsDeleteTaskModalOpen(prevState => !prevState)
-    }
-
+    const updateCurrentTaskId = (id: string) => setCurrentTaskId(id);
+    const updateCurrentTaskEditId = (id: string) => setCurrentTaskEditId(id);
+    const updateCurrentDeleteTaskId = (id: string) => setCurrentDeleteTaskId(id);
+    const toggleDeleteTaskModal = () => setIsDeleteTaskModalOpen(prevState => !prevState)
 
     return (
         <ModalContext.Provider value={
             {
-                currentTaskId,
-                currentDeleteTaskId,
-                updateCurrentDeleteTaskId,
+                openTaskModal,
+                isTaskModalOpen,
                 updateCurrentTaskId,
-                isTaskModalOpen, 
-                toggleTaskModal, 
+                currentTaskId,
+                openTaskEditModal, 
+                isTaskEditModalOpen, 
+                requestClose,
                 isDeleteTaskModalOpen, 
-                toggleDeleteTaskModal
+                toggleDeleteTaskModal,
+                updateCurrentTaskEditId,
+                currentTaskEditId,
+                updateCurrentDeleteTaskId,
+                currentDeleteTaskId,
             }}>
             {children}
         </ModalContext.Provider>

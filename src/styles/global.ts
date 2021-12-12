@@ -60,7 +60,21 @@ export const GlobalStyles = createGlobalStyle`
         border-radius: 1rem;
         padding: 1rem;
         color: var(--dark-purple);
-        transition: transform .1s;
+        transition: all .2s ease;
+        animation: fade-in .3s ease 1;
+        &.active {
+            @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(100%)
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        }
 
         .trash {
             margin: 1rem 0;
@@ -120,10 +134,6 @@ export const GlobalStyles = createGlobalStyle`
                 border: none;
                 outline: transparent;
             }
-        }
-
-        &.active {
-            transform: scale(1)
         }
 
     }
@@ -189,6 +199,18 @@ export const GlobalStyles = createGlobalStyle`
         transition: filter 0.2s;
         &:hover {
             filter: brightness(0.8);
+        }
+
+        animation: fade .2s 1 ease;
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1
+            }
         }
         div {
             margin-right: 10px;

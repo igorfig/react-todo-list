@@ -12,6 +12,7 @@ export const Container = styled.div`
         font-size: 1.125rem;
         color: var(--dark-purple);
         width: 100%;
+        box-decoration-break: clone;
         &.checked {
             text-decoration: line-through;
             text-decoration-color: var(--dark-purple);
