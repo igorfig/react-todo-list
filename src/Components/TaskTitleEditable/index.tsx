@@ -18,16 +18,36 @@ interface TaskTitleProps {
     isAllCompleted: boolean;
   };
   disabled: boolean;
+  isCharLimited?: boolean;
 }
 
-export function TaskTitle({ task, disabled }: TaskTitleProps) {
+export function TaskTitle({ task, disabled, isCharLimited }: TaskTitleProps) {
   const { changeTitleName, toggleAllTaskCompletion, createNewTask } = useTask();
   const taskTitleRef = useRef<HTMLDivElement>({} as HTMLDivElement);
-  const [title, setTitle] = useState(task.title);
+  const [title, setTitle] = useState(() => {
+    if (isCharLimited) {
+      if (window.screen.width <= 500) {
+        if (task.title.length < 25) {
+          return task.title;
+        } else {
+          return task.title.substr(0, 25) + "...";
+        }
+      } else {
+        if(task.title.length < 50) {
+          return task.title;
+        } else {
+          return task.title.substr(0, 50) + "...";
+        }
+      }
+    } else {
+      return task.title;
+    }
+  });
+
   const prevTaskTitleRef = useRef(task.title);
 
   function handleCreateNewTask(event: any) {
-    if (event.key === "Enter" ) {
+    if (event.key === "Enter") {
       event.preventDefault();
       task.body.length === 0 && createNewTask(task.id);
     }
@@ -37,7 +57,7 @@ export function TaskTitle({ task, disabled }: TaskTitleProps) {
     taskTitleRef.current.addEventListener("keydown", handleCreateNewTask);
 
     const ref = taskTitleRef.current;
-    return () => ref.removeEventListener('keydown', handleCreateNewTask )
+    return () => ref.removeEventListener("keydown", handleCreateNewTask);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task]);
 

@@ -6,13 +6,14 @@ import trashImg from '../../assets/trash.svg'
 import { useTask } from '../../hooks/useTask';
 
 export function DeleteTaskModal() {
-    const { isDeleteTaskModalOpen, toggleDeleteTaskModal, currentDeleteTaskId } = useModal();
+    const { isDeleteTaskModalOpen, toggleDeleteTaskModal, tasksSelected, unselectAllTasks } = useModal();
     const { deleteTaskBlock } = useTask();
 
     function handleDelete() {
-        deleteTaskBlock(currentDeleteTaskId)
-
+        console.log(tasksSelected);
+        deleteTaskBlock(tasksSelected);
         toggleDeleteTaskModal();
+        unselectAllTasks();
     }
 
     return (

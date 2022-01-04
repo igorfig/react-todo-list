@@ -21,7 +21,6 @@ export const Container = styled.header`
     }
 
     & + div {
-      margin: 3rem 0;
       display: flex;
       justify-content: center;
     }
@@ -37,6 +36,7 @@ export const Container = styled.header`
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 15px;
     padding: 1rem;
+    margin: 3rem 0;
     transition: filter 1s;
     input {
       background: none;
@@ -55,32 +55,23 @@ export const Container = styled.header`
     
   }
 
-  .days-of-week {
-    max-width: 500px;
-    align-self: center;
-    min-width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    & button {
-      color: var(--dark-purple);
+
+  div {
+    margin-bottom: 2rem;
+    button {
       background: transparent;
-      border-radius: 0;
-      font-size: 1.2rem;
-      width: 9%;
-      border-bottom: 3px solid transparent;
-      opacity: .7;
-      &.selected {
-        border-bottom-color: var(--dark-purple);
-        padding: 5px;
-        font-weight: 500;
+      border: none;
+      opacity: .6;
+      &.active {
+        transition: opacity .8s;
+        border-bottom: 2px solid var(--dark-purple);
         opacity: 1;
       }
-    }
-
-    & button + button {
-      margin-left: 1.6rem;
+      outline: none;
+      
+      & + button {
+        margin-left: 10px;
+      }
     }
   }
 `;

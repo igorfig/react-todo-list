@@ -15,6 +15,7 @@ interface TaskModalProps {
 
     isAllCompleted: boolean;
   };
+
 }
 
 Modal.setAppElement("#root");
@@ -32,6 +33,7 @@ export function TaskModal({ task }: TaskModalProps) {
   }
 
   id = verifyId();
+
 
   return (
     <Modal

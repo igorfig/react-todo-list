@@ -17,6 +17,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     html {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         @media (max-width: 1080px) {
             font-size: 93.75%;
         }
@@ -61,9 +62,9 @@ export const GlobalStyles = createGlobalStyle`
         padding: 1rem;
         color: var(--dark-purple);
         transition: all .2s ease;
-        animation: fade-in .3s ease 1;
+        animation: fade .3s ease 1;
         &.active {
-            @keyframes fade-in {
+            @keyframes fade {
             from {
                 opacity: 0;
                 transform: translateY(100%)
@@ -118,7 +119,7 @@ export const GlobalStyles = createGlobalStyle`
             button.main_action {
                 width: 150px;
                 margin-left: 1rem;
-                background: #ff0042;
+                background: #4C4766;
                 color: #fff;
                 border: none;
                 outline: transparent;
@@ -197,10 +198,12 @@ export const GlobalStyles = createGlobalStyle`
         align-items: center;
         cursor: pointer;
         transition: filter 0.2s;
-        &:hover {
-            filter: brightness(0.8);
-        }
+        @media(min-width: 768px) {
+            &:hover {
+                filter: brightness(0.8);
+            }
 
+        }
         animation: fade .2s 1 ease;
 
         @keyframes fade {
@@ -216,7 +219,7 @@ export const GlobalStyles = createGlobalStyle`
             margin-right: 10px;
             width: 1.3rem;
             height: 1.3rem;
-            border: 2px solid #c4c4c4;
+            border: 2px solid ${darken(.08, '#c4c4c4')};
             border-radius: 3px;
             display: flex;
             align-items: center;
@@ -244,11 +247,6 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
 
-    span.checked {
-        text-decoration: line-through;
-        color: var(--dark-purple);
-        opacity: .6;
-    }
     .Toastify__toast {
             border-radius: .5rem;
             margin: 0 .25rem;

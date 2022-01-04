@@ -18,8 +18,9 @@ interface TasksContextData {
     id: string,
     taskBlockId: string
   ) => void;
-  deleteTaskBlock: (taskBlockId: string) => void;
+  deleteTaskBlock: (taskBlockId: string[]) => void;
   deleteTask: (taskBlockId: string, taskId: string) => void;
+  handleToggleTasks: (id: string) => void;
 }
 
 interface Tasks {
@@ -30,8 +31,8 @@ interface Tasks {
     task: string;
     isCompleted: boolean;
   }[];
-
   isAllCompleted: boolean;
+  isHide: boolean;
 }
 
 const data = [
@@ -65,8 +66,8 @@ const data = [
         isCompleted: false,
       },
     ],
-
     isAllCompleted: false,
+    isHide: false
   },
 ];
 
@@ -79,9 +80,25 @@ export function TaskProvider({ children }: ProviderProps) {
 
     return itemsOnStorage
   });
+ 
 
   useEffect(() => localStorage.setItem('@tasks', JSON.stringify(tasks)), [tasks])
   
+  const handleToggleTasks = (id: string) => {
+    const tasksUpdated = tasks.map(task => {
+      if(task.id === id) {
+        return {
+          ...task,
+          isHide: !task.isHide
+        }
+      }
+
+      return task
+    })
+
+    setTasks(tasksUpdated);
+  };
+
   // CRUD
   function createNewTaskBlock() {
     setTasks([
@@ -96,8 +113,8 @@ export function TaskProvider({ children }: ProviderProps) {
             isCompleted: false,
           },
         ],
-    
         isAllCompleted: false,
+        isHide: false
       }
     ])
   }
@@ -228,8 +245,8 @@ export function TaskProvider({ children }: ProviderProps) {
     setTasks(tasksUpdated);
   }
 
-  function deleteTaskBlock(taskBlockId: string) {
-    const tasksNotDeleted = tasks.filter(task => task.id !== taskBlockId);   
+  function deleteTaskBlock(taskBlockId: string[]) {
+    const tasksNotDeleted = tasks.filter((task) => !taskBlockId.includes(task.id));   
 
     const tasksUpdated = tasksNotDeleted.map((task) => ({
       ...task,
@@ -264,6 +281,7 @@ export function TaskProvider({ children }: ProviderProps) {
     <TasksContext.Provider
       value={{
         tasks,
+        handleToggleTasks,
         createNewTaskBlock,
         createNewTask,
         toggleAllTaskCompletion,
