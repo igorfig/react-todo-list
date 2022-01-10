@@ -9,7 +9,6 @@ export const Container = styled.div`
     color: var(--dark-purple);
     transition: transform .2s;
     .contentEditable-container {
-        user-select: none;
         outline: none;
         font-size: 1.125rem;
         color: var(--dark-purple);

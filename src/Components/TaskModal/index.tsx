@@ -1,21 +1,11 @@
 import Modal from "react-modal";
 import { useModal } from "../../hooks/useModal";
-import { Task } from "../TaskEditable";
+import { Task } from "../../types";
+import { Todo } from "../TaskEditable";
 import { TaskTitle } from "../TaskTitleEditable";
 
 interface TaskModalProps {
-  task: {
-    id: string;
-    title: string;
-    body: {
-      id: string;
-      task: string;
-      isCompleted: boolean;
-    }[];
-
-    isAllCompleted: boolean;
-  };
-
+  task: Task
 }
 
 Modal.setAppElement("#root");
@@ -45,7 +35,7 @@ export function TaskModal({ task }: TaskModalProps) {
       <TaskTitle task={task} disabled={false} />
       {task.body.map((task) => (
         <div key={task.id}>
-         <Task
+         <Todo
             taskBlockId={id}
             isCharLimited={false}
             disabled={false}

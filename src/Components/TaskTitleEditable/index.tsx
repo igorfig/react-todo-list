@@ -2,21 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
 import { toast, ToastContainer } from "react-toastify";
 import { useTask } from "../../hooks/useTask";
+import { Task } from "../../types";
 import { Checkbox } from "../UI/Checkbox";
 import { Container } from "./styles";
 
 interface TaskTitleProps {
-  task: {
-    id: string;
-    title: string;
-    body: {
-      id: string;
-      task: string;
-      isCompleted: boolean;
-    }[];
-
-    isAllCompleted: boolean;
-  };
+  task: Task;
   disabled: boolean;
   isCharLimited?: boolean;
 }

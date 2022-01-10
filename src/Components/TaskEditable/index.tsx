@@ -15,7 +15,7 @@ interface TaskProps {
   isCharLimited: boolean;
 }
 
-export function Task({
+export function Todo({
   task,
   taskBlockId,
   disabled,
@@ -37,11 +37,11 @@ export function Task({
   
   useEffect(() => {
     taskRef.current.focus();
-    document.addEventListener('keydown', event => event.key === 'Enter' && event.preventDefault());
+    taskRef.current.addEventListener('keydown', (event: any) => event.key === 'Enter' && event.preventDefault())
   }, [])
 
-  function handleCreateNewTask(event: any) {
-      if(event.which === 13) {
+  function handleCreateNewTask(event: any) {  
+      if(event.key === "Enter") {
         const currentTask = tasks.filter(task => task.id === taskBlockId);
 
         if(text === currentTask[0].body[currentTask[0].body.length - 1].task && text.length > 0) {
@@ -77,6 +77,7 @@ export function Task({
 
   function handleChange(event: any) {
     setText(event.target.value);
+
     changeTaskName(event.target.value, task.id, taskBlockId);
 
     if(task.isCompleted) {

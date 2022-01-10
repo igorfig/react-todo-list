@@ -6,23 +6,15 @@ import { Container } from "./styles";
 import moreImg from "../../assets/more.svg";
 
 import { useModal } from "../../hooks/useModal";
-import { Task } from "../TaskEditable";
+import { Todo } from "../TaskEditable";
 import { TaskTitle } from "../TaskTitleEditable";
 import { DeleteTaskModal } from "../DeleteTaskModal";
 import { useTask } from "../../hooks/useTask";
 import Holdable from "../Holdable/Holdable";
+import { Task } from '../../types'
+
 interface TasksProps {
-  task: {
-    id: string;
-    title: string;
-    body: {
-      id: string;
-      task: string;
-      isCompleted: boolean;
-    }[];
-    isAllCompleted: boolean;
-    isHide: boolean;
-  };
+  task: Task
   isBarOpen: boolean;
   toggleBar: () => void;
   isAllSelected: boolean
@@ -120,7 +112,7 @@ export function TaskList({ task, toggleBar, isBarOpen, isAllSelected }: TasksPro
             task.body.map((_, id) => (
               <div key={id}>
                 {!isTaskModalOpen && !isTaskEditModalOpen && (
-                  <Task
+                  <Todo
                     isCharLimited={true}
                     disabled={true}
                     taskBlockId={task.id}
@@ -128,7 +120,7 @@ export function TaskList({ task, toggleBar, isBarOpen, isAllSelected }: TasksPro
                   />
                 )}
                 {isTaskEditModalOpen && (
-                  <Task
+                  <Todo
                     isCharLimited={true}
                     disabled={true}
                     taskBlockId={task.id}
@@ -136,7 +128,7 @@ export function TaskList({ task, toggleBar, isBarOpen, isAllSelected }: TasksPro
                   />
                 )}
                 {isTaskModalOpen && (
-                  <Task
+                  <Todo
                     isCharLimited={true}
                     disabled={true}
                     taskBlockId={task.id}

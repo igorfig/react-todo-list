@@ -26,6 +26,10 @@ export const Container = styled.header`
     }
   }
 
+  [disabled] {
+    opacity: .6;
+  }
+  
   .input-container {
     display: flex;
     width: 100%;
