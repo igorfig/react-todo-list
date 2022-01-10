@@ -116,7 +116,7 @@ export function TaskBoard({
               />  
             ))}
 
-        {result.length === 0 && isSearching && (
+        {result.length === 0 && (
           <FadeIn>
             <div className="without-pending-tasks-message">
               <span>Não encontramos nenhum resultado.</span>

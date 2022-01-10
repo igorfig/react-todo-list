@@ -44,19 +44,19 @@ export function Header({
               e.target.value.length === 0 && handleSwitchIsSearchingStatus(false)
             }}
             onFocus={() =>
-              value.length >= 1 && handleSwitchIsSearchingStatus(true)
+              value.length > 0 && handleSwitchIsSearchingStatus(true)
             }
             onChange={(e) => handleChangeSearchValue(e.target.value)}
             type="text"
             placeholder="Procurar por tarefas"
           />
-          {isSearching && value.length >= 1 &&  <button onClick={handleRemoveAllValue}>
+          {isSearching && value.length > 0 &&  <button onClick={handleRemoveAllValue}>
             <img src={deleteAllTextImg} alt="" />
           </button>}
         </div>
       </div>
 
-      {!isSearching && (
+      {!isSearching && value.length === 0 && (
         <div>
           <button
             onClick={() => toggleTasksStatus(true)}
